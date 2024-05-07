@@ -6,7 +6,9 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-st.set_page_config(page_title="Coffee Sales", page_icon=":bar_chart:", layout="wide")
+st.set_page_config(
+    page_title="Jabodetabek House Price", page_icon=":bar_chart:", layout="wide"
+)
 st.title(":bar_chart: Jabodetabek House Price")
 st.subheader(":male-student: Ageng Putra Pratama - 09010622001")
 st.subheader(":male-student: Muhammad Rifqi Naufal Irsyad - 09010622010")
