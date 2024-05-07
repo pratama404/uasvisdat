@@ -8,7 +8,9 @@ warnings.filterwarnings("ignore")
 
 st.set_page_config(page_title="Coffee Sales", page_icon=":bar_chart:", layout="wide")
 st.title(":bar_chart: Dashboard Coffee Sales")
+st.subheader(":student: Ageng Putra Pratama - 09010622001")
 st.subheader(":student: Muhammad Rifqi Naufal Irsyad - 09010622010")
+st.subheader(":student: Rizki Cahyani Fitonah - 09010622010")
 st.markdown(
     "<style>div.block-container{padding-top:2rem;}</style>", unsafe_allow_html=True
 )
