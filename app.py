@@ -84,3 +84,33 @@ if not df.empty:
     correlation = df_numeric[['price_in_rp', 'property_condition']].corr()
     fig = px.imshow(correlation, labels=dict(x="Variabel", y="Variabel", color="Korelasi"), x=correlation.index, y=correlation.columns)
     st.plotly_chart(fig)
+
+        # Scatter Plot
+    st.subheader("Scatter Plot")
+    scatter_plot = px.scatter(df, x='building_size_m2', y='price_in_rp', title='Hubungan Antara Luas Bangunan dan Harga Properti')
+    st.plotly_chart(scatter_plot)
+
+    # Line Plot
+    st.subheader("Line Plot")
+    line_plot = px.line(df, x='year_built', y='price_in_rp', title='Trend Harga Properti Berdasarkan Tahun Pembangunan')
+    st.plotly_chart(line_plot)
+
+    # Pie Chart
+    st.subheader("Pie Chart")
+    pie_chart = px.pie(df, names='property_condition', title='Persentase Kondisi Properti')
+    st.plotly_chart(pie_chart)
+
+    # Histogram
+    st.subheader("Histogram")
+    histogram = px.histogram(df, x='price_in_rp', title='Distribusi Harga Properti')
+    st.plotly_chart(histogram)
+
+    # Box Plot
+    st.subheader("Box Plot")
+    box_plot = px.box(df, y='price_in_rp', title='Box Plot Harga Properti')
+    st.plotly_chart(box_plot)
+
+    # Density Contour Plot
+    st.subheader("Density Contour Plot")
+    density_contour = px.density_contour(df, x='building_size_m2', y='land_size_m2', title='Density Contour Plot Luas Bangunan vs Luas Tanah')
+    st.plotly_chart(density_contour)
