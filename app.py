@@ -42,13 +42,15 @@ if not city:
 else:
     df_filtered = df[df["city"].isin(city)]
 
-district = st.sidebar.multiselect(":city: Kawasan", df["district"].dropna().unique())
+district = st.sidebar.multiselect(
+    ":cityscape: Kawasan", df["district"].dropna().unique()
+)
 if not district:
     df_filtered = df.copy()
 else:
     df_filtered = df[df["district"].isin(district)]
 
-alamat = st.sidebar.multiselect(":world_map: Alamat", df["address"].dropna().unique())
+alamat = st.sidebar.multiselect("📌 Alamat", df["address"].dropna().unique())
 if not alamat:
     df_filtered = df.copy()
 else:
@@ -63,7 +65,7 @@ for facilities_list in df["facilities"]:
 # Mengurutkan fasilitas yang tidak kosong dalam bentuk daftar
 all_facilities = sorted([facility for facility in all_facilities if facility])
 
-selected_facilities = st.sidebar.multiselect("Fasilitas", all_facilities)
+selected_facilities = st.sidebar.multiselect("🎱 Fasilitas", all_facilities)
 
 if not selected_facilities:
     df_filtered = df.copy()
@@ -166,14 +168,14 @@ if advanced_filters_clicked:
         (df["building_size_m2"] >= min_building_size)
         & (df["building_size_m2"] <= max_building_size)
     ]
-    floors = st.sidebar.multiselect("Jumlah Lantai", df["floors"].dropna().unique())
+    floors = st.sidebar.multiselect("🪜 Jumlah Lantai", df["floors"].dropna().unique())
     if not floors:
         df_filtered = df.copy()
     else:
         df_filtered = df[df["floors"].isin(floors)]
 
     listrik = st.sidebar.multiselect(
-        ":world_map: Kelistrikan", df["electricity"].dropna().unique()
+        "🔌 Kelistrikan", df["electricity"].dropna().unique()
     )
     if not listrik:
         df_filtered = df.copy()
@@ -181,7 +183,7 @@ if advanced_filters_clicked:
         df_filtered = df[df["electricity"].isin(listrik)]
 
     kondisi = st.sidebar.multiselect(
-        ":world_map: Kondisi", df["property_condition"].dropna().unique()
+        "🏡 Kondisi", df["property_condition"].dropna().unique()
     )
     if not kondisi:
         df_filtered = df.copy()
@@ -189,23 +191,21 @@ if advanced_filters_clicked:
         df_filtered = df[df["property_condition"].isin(kondisi)]
 
     orientasi = st.sidebar.multiselect(
-        ":world_map: Orientasi Bangunan", df["building_orientation"].dropna().unique()
+        "🧭 Orientasi Bangunan", df["building_orientation"].dropna().unique()
     )
     if not orientasi:
         df_filtered = df.copy()
     else:
         df_filtered = df[df["building_orientation"].isin(orientasi)]
 
-    furnish = st.sidebar.multiselect(
-        ":world_map: Perabotan", df["furnishing"].dropna().unique()
-    )
+    furnish = st.sidebar.multiselect("🪑 Perabotan", df["furnishing"].dropna().unique())
     if not furnish:
         df_filtered = df.copy()
     else:
         df_filtered = df[df["furnishing"].isin(furnish)]
 
     bedrooms = st.sidebar.multiselect(
-        "Jumlah Kamar Tidur", df["bedrooms"].dropna().unique()
+        "🛏️ Jumlah Kamar Tidur", df["bedrooms"].dropna().unique()
     )
     if not bedrooms:
         df_filtered = df.copy()
@@ -213,7 +213,7 @@ if advanced_filters_clicked:
         df_filtered = df[df["bedrooms"].isin(bedrooms)]
 
     bathrooms = st.sidebar.multiselect(
-        "Jumlah Kamar Mandi", df["bathrooms"].dropna().unique()
+        "🛁 Jumlah Kamar Mandi", df["bathrooms"].dropna().unique()
     )
     if not bathrooms:
         df_filtered = df.copy()
@@ -221,7 +221,7 @@ if advanced_filters_clicked:
         df_filtered = df[df["bathrooms"].isin(bathrooms)]
 
     carports = st.sidebar.multiselect(
-        "Jumlah Carport", df["carports"].dropna().unique()
+        "🏎 Jumlah Carport", df["carports"].dropna().unique()
     )
     if not carports:
         df_filtered = df.copy()
@@ -229,7 +229,7 @@ if advanced_filters_clicked:
         df_filtered = df[df["carports"].isin(carports)]
 
     maid_bedrooms = st.sidebar.multiselect(
-        "Jumlah Kamar Pembantu", df["maid_bedrooms"].dropna().unique()
+        "🛏 Jumlah Kamar Pembantu", df["maid_bedrooms"].dropna().unique()
     )
     if not maid_bedrooms:
         df_filtered = df.copy()
@@ -237,14 +237,14 @@ if advanced_filters_clicked:
         df_filtered = df[df["maid_bedrooms"].isin(maid_bedrooms)]
 
     maid_bathrooms = st.sidebar.multiselect(
-        "Jumlah Kamar Mandi Pembantu", df["maid_bathrooms"].dropna().unique()
+        "🚽 Jumlah Kamar Mandi Pembantu", df["maid_bathrooms"].dropna().unique()
     )
     if not maid_bathrooms:
         df_filtered = df.copy()
     else:
         df_filtered = df[df["maid_bathrooms"].isin(maid_bathrooms)]
 
-    garages = st.sidebar.multiselect("Jumlah Garasi", df["garages"].dropna().unique())
+    garages = st.sidebar.multiselect("🏎️ Jumlah Garasi", df["garages"].dropna().unique())
     if not garages:
         df_filtered = df.copy()
     else:
