@@ -56,6 +56,16 @@ if not alamat:
 else:
     df_filtered = df[df["address"].isin(alamat)]
 
+# Sertifikat Filter
+sertifikat = st.sidebar.multiselect(
+    "📜 Jenis Sertifikat", df["certificate"].dropna().unique()
+)
+if not sertifikat:
+    df_filtered = df.copy()
+else:
+    df_filtered = df[df["certificate"].isin(sertifikat)]
+
+
 # Mengambil semua kemungkinan fasilitas yang tidak kosong
 all_facilities = set()
 for facilities_list in df["facilities"]:
@@ -74,6 +84,7 @@ else:
         lambda x: any(facility in x for facility in selected_facilities)
     )
     df_filtered = df[mask & (df["facilities"] != "")]
+
 
 # Harga
 min_price_column, max_price_column = st.sidebar.columns(2)
