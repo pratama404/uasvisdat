@@ -36,19 +36,19 @@ except Exception as e:
 # Filter
 st.sidebar.header("Filter:")
 
-city = st.sidebar.multiselect(":world_map: Kota", df["city"].unique())
+city = st.sidebar.multiselect(":world_map: Kota", df["city"].dropna().unique())
 if not city:
     df_filtered = df.copy()
 else:
     df_filtered = df[df["city"].isin(city)]
 
-district = st.sidebar.multiselect(":city: Kawasan", df["district"].unique())
+district = st.sidebar.multiselect(":city: Kawasan", df["district"].dropna().unique())
 if not district:
     df_filtered = df.copy()
 else:
     df_filtered = df[df["district"].isin(district)]
 
-alamat = st.sidebar.multiselect(":world_map: Alamat", df["address"].unique())
+alamat = st.sidebar.multiselect(":world_map: Alamat", df["address"].dropna().unique())
 if not alamat:
     df_filtered = df.copy()
 else:
@@ -105,78 +105,153 @@ max_price = max_price_miliar * 1_000_000_000 + max_price_juta * 1_000_000
 df_filtered = df[(df["price_in_rp"] >= min_price) & (df["price_in_rp"] <= max_price)]
 
 
-min_building_age, max_building_age = st.sidebar.columns(2)
-min_building_age = min_building_age.number_input(
-    "Usia Bangunan Minimum (Tahun)", min_value=0, value=0
-)
-max_building_age = max_building_age.number_input(
-    "Usia Bangunan Maksimum (Tahun)", min_value=0, value=int(df["building_age"].max())
-)
-df_filtered = df[
-    (df["building_age"] >= min_building_age) & (df["building_age"] <= max_building_age)
-]
+advanced_filters_clicked = st.sidebar.button("Advanced Filters")
+if advanced_filters_clicked:
+    min_building_age, max_building_age = st.sidebar.columns(2)
+    min_building_age = min_building_age.number_input(
+        "Usia Bangunan Minimum (Tahun)", min_value=0, value=0
+    )
+    max_building_age = max_building_age.number_input(
+        "Usia Bangunan Maksimum (Tahun)",
+        min_value=0,
+        value=int(df["building_age"].max()),
+    )
+    df_filtered = df[
+        (df["building_age"] >= min_building_age)
+        & (df["building_age"] <= max_building_age)
+    ]
 
-min_year_built, max_year_built = st.sidebar.columns(2)
-min_year_built = min_year_built.number_input(
-    "Tahun Pembangunan Minimum",
-    min_value=int(df["year_built"].min()),
-    max_value=int(df["year_built"].max()),
-    value=int(df["year_built"].min()),
-)
-max_year_built = max_year_built.number_input(
-    "Tahun Pembangunan Maksimum",
-    min_value=int(df["year_built"].min()),
-    max_value=int(df["year_built"].max()),
-    value=int(df["year_built"].max()),
-)
+    # Filter Tahun Pembangunan
+    min_year_built, max_year_built = st.sidebar.columns(2)
+    min_year_built = min_year_built.number_input(
+        "Tahun Pembangunan Minimum",
+        min_value=int(df["year_built"].min()),
+        max_value=int(df["year_built"].max()),
+        value=int(df["year_built"].min()),
+    )
+    max_year_built = max_year_built.number_input(
+        "Tahun Pembangunan Maksimum",
+        min_value=int(df["year_built"].min()),
+        max_value=int(df["year_built"].max()),
+        value=int(df["year_built"].max()),
+    )
 
-df_filtered = df[
-    (df["year_built"] >= min_year_built) & (df["year_built"] <= max_year_built)
-]
+    df_filtered = df[
+        (df["year_built"] >= min_year_built) & (df["year_built"] <= max_year_built)
+    ]
 
-min_land_size, max_land_size = st.sidebar.columns(2)
-min_land_size = min_land_size.number_input(
-    "Luas Tanah Minimum (m^2)", min_value=0, value=0
-)
-max_land_size = max_land_size.number_input(
-    "Luas Tanah Maksimum (m^2)", min_value=0, value=int(df["land_size_m2"].max())
-)
-df_filtered_land_size = df[
-    (df["land_size_m2"] >= min_land_size) & (df["land_size_m2"] <= max_land_size)
-]
+    # Filter Luas Tanah
+    min_land_size, max_land_size = st.sidebar.columns(2)
+    min_land_size = min_land_size.number_input(
+        "Luas Tanah Minimum (m^2)", min_value=0, value=0
+    )
+    max_land_size = max_land_size.number_input(
+        "Luas Tanah Maksimum (m^2)", min_value=0, value=int(df["land_size_m2"].max())
+    )
+    df_filtered_land_size = df[
+        (df["land_size_m2"] >= min_land_size) & (df["land_size_m2"] <= max_land_size)
+    ]
 
-min_building_size, max_building_size = st.sidebar.columns(2)
-min_building_size = min_building_size.number_input(
-    "Luas Bangunan Minimum (m^2)", min_value=0, value=0
-)
-max_building_size = max_building_size.number_input(
-    "Luas Bangunan Maksimum (m^2)", min_value=0, value=int(df["building_size_m2"].max())
-)
-df_filtered_building_size = df[
-    (df["building_size_m2"] >= min_building_size)
-    & (df["building_size_m2"] <= max_building_size)
-]
+    # Filter Luas Bangunan
+    min_building_size, max_building_size = st.sidebar.columns(2)
+    min_building_size = min_building_size.number_input(
+        "Luas Bangunan Minimum (m^2)", min_value=0, value=0
+    )
+    max_building_size = max_building_size.number_input(
+        "Luas Bangunan Maksimum (m^2)",
+        min_value=0,
+        value=int(df["building_size_m2"].max()),
+    )
+    df_filtered_building_size = df[
+        (df["building_size_m2"] >= min_building_size)
+        & (df["building_size_m2"] <= max_building_size)
+    ]
+    floors = st.sidebar.multiselect("Jumlah Lantai", df["floors"].dropna().unique())
+    if not floors:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["floors"].isin(floors)]
 
-listrik = st.sidebar.multiselect(":world_map: Kelistrikan", df["electricity"].unique())
-if not listrik:
-    df_filtered = df.copy()
+    listrik = st.sidebar.multiselect(
+        ":world_map: Kelistrikan", df["electricity"].dropna().unique()
+    )
+    if not listrik:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["electricity"].isin(listrik)]
+
+    kondisi = st.sidebar.multiselect(
+        ":world_map: Kondisi", df["property_condition"].dropna().unique()
+    )
+    if not kondisi:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["property_condition"].isin(kondisi)]
+
+    orientasi = st.sidebar.multiselect(
+        ":world_map: Orientasi Bangunan", df["building_orientation"].dropna().unique()
+    )
+    if not orientasi:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["building_orientation"].isin(orientasi)]
+
+    furnish = st.sidebar.multiselect(
+        ":world_map: Perabotan", df["furnishing"].dropna().unique()
+    )
+    if not furnish:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["furnishing"].isin(furnish)]
+
+    bedrooms = st.sidebar.multiselect(
+        "Jumlah Kamar Tidur", df["bedrooms"].dropna().unique()
+    )
+    if not bedrooms:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["bedrooms"].isin(bedrooms)]
+
+    bathrooms = st.sidebar.multiselect(
+        "Jumlah Kamar Mandi", df["bathrooms"].dropna().unique()
+    )
+    if not bathrooms:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["bathrooms"].isin(bathrooms)]
+
+    carports = st.sidebar.multiselect(
+        "Jumlah Carport", df["carports"].dropna().unique()
+    )
+    if not carports:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["carports"].isin(carports)]
+
+    maid_bedrooms = st.sidebar.multiselect(
+        "Jumlah Kamar Pembantu", df["maid_bedrooms"].dropna().unique()
+    )
+    if not maid_bedrooms:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["maid_bedrooms"].isin(maid_bedrooms)]
+
+    maid_bathrooms = st.sidebar.multiselect(
+        "Jumlah Kamar Mandi Pembantu", df["maid_bathrooms"].dropna().unique()
+    )
+    if not maid_bathrooms:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["maid_bathrooms"].isin(maid_bathrooms)]
+
+    garages = st.sidebar.multiselect("Jumlah Garasi", df["garages"].dropna().unique())
+    if not garages:
+        df_filtered = df.copy()
+    else:
+        df_filtered = df[df["garages"].isin(garages)]
+
 else:
-    df_filtered = df[df["electricity"].isin(listrik)]
-
-orientasi = st.sidebar.multiselect(
-    ":world_map: Orientasi Bangunan", df["building_orientation"].unique()
-)
-if not listrik:
     df_filtered = df.copy()
-else:
-    df_filtered = df[df["building_orientation"].isin(orientasi)]
-
-furnish = st.sidebar.multiselect(":world_map: Perabotan", df["furnishing"].unique())
-if not listrik:
-    df_filtered = df.copy()
-else:
-    df_filtered = df[df["furnishing"].isin(furnish)]
-
 
 if not df.empty:
     st.write(df.head())
