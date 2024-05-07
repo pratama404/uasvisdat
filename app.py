@@ -75,23 +75,17 @@ else:
     )
     df_filtered = df[mask & (df["facilities"] != "")]
 
-# Membuat input untuk harga minimum dan maksimum dalam satuan miliar
+# Harga
 min_price_column, max_price_column = st.sidebar.columns(2)
 
-min_price = min_price_column.number_input("Harga Minimum", min_value=0, value=0)
+min_price = min_price_column.number_input("💵 Harga Minimum", min_value=0, value=0)
 
 max_price = max_price_column.number_input(
-    "Harga Maksimum", min_value=0, value=df["price_in_rp"].max() // 1_000_000
+    "💶 Harga Maksimum", min_value=0, value=df["price_in_rp"].max()
 )
 
-# Mengonversi input harga minimum dan maksimum ke dalam satuan rupiah
-min_price_rupiah = min_price * 1_000_000_000
-max_price_rupiah = max_price * 1_000_000_000
-
 # Menerapkan filter
-df_filtered = df[
-    (df["price_in_rp"] >= min_price_rupiah) & (df["price_in_rp"] <= max_price_rupiah)
-]
+df_filtered = df[(df["price_in_rp"] >= min_price) & (df["price_in_rp"] <= max_price)]
 
 advanced_filters_clicked = st.sidebar.button("Advanced Filters")
 if advanced_filters_clicked:
