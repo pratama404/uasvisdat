@@ -73,13 +73,9 @@ def apply_filters(data_frame):
         all_facilities.update(facilities)
 
     # Mengurutkan fasilitas yang tidak kosong dalam bentuk daftar
-    all_facilities = sorted(
-        [facility for facility in all_facilities if facility]
-    )  # changed 'if facility' from 'if facility in all_facilities'
+    all_facilities = sorted([facility for facility in all_facilities if facility])
 
-    selected_facilities = st.sidebar.multiselect(
-        "🎱 Fasilitas", all_facilities
-    )  # changed 'all_facilities' from 'df_filtered'
+    selected_facilities = st.sidebar.multiselect("🎱 Fasilitas", all_facilities)
 
     if not selected_facilities:
         df_filtered = df_filtered.copy()
@@ -104,8 +100,8 @@ def apply_filters(data_frame):
         & (df_filtered["price_in_rp"] <= max_price)
     ]
     if df_filtered.empty:
-            st.warning("Data tidak ditemukan dengan filter yang diterapkan.")
-            return df_filtered
+        st.warning("Data tidak ditemukan dengan filter yang diterapkan.")
+        return df_filtered
     # Expander untuk Advanced Filters
     with st.sidebar.expander("Advanced Filters", expanded=True):
         min_building_age, max_building_age = st.columns(2)
@@ -258,7 +254,9 @@ def apply_filters(data_frame):
                 df_filtered["maid_bathrooms"].isin(maid_bathrooms)
             ]
 
-        garages = st.multiselect("🏎️ Jumlah Garasi", df["garages"].dropna().unique())
+        garages = st.multiselect(
+            "🏎️ Jumlah Garasi", df_filtered["garages"].dropna().unique()
+        )
         if not garages:
             df_filtered = df_filtered.copy()
         else:
