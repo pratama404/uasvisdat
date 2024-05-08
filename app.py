@@ -16,16 +16,10 @@ st.text("Rizki Cahyani Fitonah")
 st.markdown(
     "<style>div.block-container{padding-top:2rem;}</style>", unsafe_allow_html=True
 )
-# Upload file
-fl = st.file_uploader(":file_folder: Upload a File", type=["xlsx", "xls"])
+
 
 try:
-    if fl is not None:
-        filename = fl.name
-        st.write(filename)
-        df = pd.read_excel(fl)
-    else:
-        df = pd.read_excel("jabodetabek_house_price.xlsx")
+    df = pd.read_excel("jabodetabek_house_price.xlsx")
 except FileNotFoundError:
     st.error(
         "File not found. Please make sure you have uploaded the correct file or provide the correct path to the default file."
