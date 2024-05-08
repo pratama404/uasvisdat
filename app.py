@@ -1,3 +1,4 @@
+from click import clear
 import streamlit as st
 import plotly.express as px
 import pandas as pd
@@ -28,62 +29,43 @@ except Exception as e:
     st.error(f"An error occurred: {e}")
 
 
-# Filter function
 def apply_filters(data_frame):
-    # Filter
-    st.sidebar.header("Filter:")
-
+    # Filter city
     city = st.sidebar.multiselect(
-        ":world_map: Kota", data_frame["city"].dropna().unique()
+        ":world_map: Kota", data_frame["city"].dropna().unique(), key="city_multiselect"
     )
-    if not city:
-        df_filtered = data_frame.copy()
-    else:
-        df_filtered = data_frame[data_frame["city"].isin(city)]
 
+    # Filter district
     district = st.sidebar.multiselect(
-        ":cityscape: Kawasan", df_filtered["district"].dropna().unique()
+        ":cityscape: Kawasan",
+        data_frame["district"].dropna().unique(),
+        key="district_multiselect",
     )
-    if not district:
-        df_filtered = df_filtered.copy()
-    else:
-        df_filtered = df_filtered[df_filtered["district"].isin(district)]
 
+    # Filter Alamat
     alamat = st.sidebar.multiselect(
-        "📌 Alamat", df_filtered["address"].dropna().unique()
+        "📌 Alamat", data_frame["address"].dropna().unique(), key="alamat_multiselect"
     )
-    if not alamat:
-        df_filtered = df_filtered.copy()
-    else:
-        df_filtered = df_filtered[df_filtered["address"].isin(alamat)]
 
     # Sertifikat Filter
     sertifikat = st.sidebar.multiselect(
-        "📜 Jenis Sertifikat", df_filtered["certificate"].dropna().unique()
+        "📜 Jenis Sertifikat",
+        data_frame["certificate"].dropna().unique(),
+        key="sertifikat_multiselect",
     )
-    if not sertifikat:
-        df_filtered = df_filtered.copy()
-    else:
-        df_filtered = df_filtered[df_filtered["certificate"].isin(sertifikat)]
 
     # Mengambil semua kemungkinan fasilitas yang tidak kosong
     all_facilities = set()
-    for facilities_list in df_filtered["facilities"]:
+    for facilities_list in data_frame["facilities"]:
         facilities = facilities_list.split(", ")
         all_facilities.update(facilities)
 
     # Mengurutkan fasilitas yang tidak kosong dalam bentuk daftar
     all_facilities = sorted([facility for facility in all_facilities if facility])
 
-    selected_facilities = st.sidebar.multiselect("🎱 Fasilitas", all_facilities)
-
-    if not selected_facilities:
-        df_filtered = df_filtered.copy()
-    else:
-        mask = df_filtered["facilities"].apply(
-            lambda x: any(facility in x for facility in selected_facilities)
-        )
-        df_filtered = df_filtered[mask & (df_filtered["facilities"] != "")]
+    selected_facilities = st.sidebar.multiselect(
+        "🎱 Fasilitas", all_facilities, key="selected_facilities_multiselect"
+    )
 
     # Harga
     min_price_column, max_price_column = st.sidebar.columns(2)
@@ -91,17 +73,19 @@ def apply_filters(data_frame):
     min_price = min_price_column.number_input("💵 Harga Minimum", min_value=0, value=0)
 
     max_price = max_price_column.number_input(
-        "💶 Harga Maksimum", min_value=0, value=df_filtered["price_in_rp"].max()
+        "💶 Harga Maksimum", min_value=0, value=data_frame["price_in_rp"].max()
     )
 
     # Menerapkan filter
-    df_filtered = df_filtered[
-        (df_filtered["price_in_rp"] >= min_price)
-        & (df_filtered["price_in_rp"] <= max_price)
+    df_filtered = data_frame[
+        (data_frame["price_in_rp"] >= min_price)
+        & (data_frame["price_in_rp"] <= max_price)
     ]
+
     if df_filtered.empty:
         st.warning("Data tidak ditemukan dengan filter yang diterapkan.")
         return df_filtered
+
     # Expander untuk Advanced Filters
     with st.sidebar.expander("Advanced Filters", expanded=True):
         min_building_age, max_building_age = st.columns(2)
@@ -167,33 +151,45 @@ def apply_filters(data_frame):
             (df_filtered["building_size_m2"] >= min_building_size)
             & (df_filtered["building_size_m2"] <= max_building_size)
         ]
+
+        # Filter tingkat lantai
         floors = st.multiselect(
-            "🪜 Jumlah Lantai", df_filtered["floors"].dropna().unique()
+            "🪜 Jumlah Lantai",
+            df_filtered["floors"].dropna().unique(),
+            key="floors_multiselect",
         )
         if not floors:
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["floors"].isin(floors)]
 
+        # Filter tegangan rumah
         listrik = st.multiselect(
-            "🔌 Kelistrikan", df_filtered["electricity"].dropna().unique()
+            "🔌 Kelistrikan",
+            df_filtered["electricity"].dropna().unique(),
+            key="listrik_multiselect",
         )
         if not listrik:
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["electricity"].isin(listrik)]
 
+        # Filter kondisi
         kondisi = st.multiselect(
-            "🏡 Kondisi", df_filtered["property_condition"].dropna().unique()
+            "🏡 Kondisi",
+            df_filtered["property_condition"].dropna().unique(),
+            key="kondisi_multiselect",
         )
         if not kondisi:
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["property_condition"].isin(kondisi)]
 
+        # Filter orientasi bangunan
         orientasi = st.multiselect(
             "🧭 Orientasi Bangunan",
             df_filtered["building_orientation"].dropna().unique(),
+            key="orientasi_multiselect",
         )
         if not orientasi:
             df_filtered = df_filtered.copy()
@@ -202,50 +198,66 @@ def apply_filters(data_frame):
                 df_filtered["building_orientation"].isin(orientasi)
             ]
 
+        # filter furnish
         furnish = st.multiselect(
-            "🪑 Perabotan", df_filtered["furnishing"].dropna().unique()
+            "🪑 Perabotan",
+            df_filtered["furnishing"].dropna().unique(),
+            key="furnish_multiselect",
         )
         if not furnish:
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["furnishing"].isin(furnish)]
 
+        # Filter kamar tidur
         bedrooms = st.multiselect(
-            "🛏️ Jumlah Kamar Tidur", df_filtered["bedrooms"].dropna().unique()
+            "🛏️ Jumlah Kamar Tidur",
+            df_filtered["bedrooms"].dropna().unique(),
+            key="bedrooms_multiselect",
         )
         if not bedrooms:
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["bedrooms"].isin(bedrooms)]
 
+        # Filter kamar mandi
         bathrooms = st.multiselect(
-            "🛁 Jumlah Kamar Mandi", df_filtered["bathrooms"].dropna().unique()
+            "🛁 Jumlah Kamar Mandi",
+            df_filtered["bathrooms"].dropna().unique(),
+            key="bathrooms_multiselect",
         )
         if not bathrooms:
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["bathrooms"].isin(bathrooms)]
 
+        # filter carports
         carports = st.multiselect(
-            "🏎 Jumlah Carport", df_filtered["carports"].dropna().unique()
+            "🏎 Jumlah Carport",
+            df_filtered["carports"].dropna().unique(),
+            key="carports_multiselect",
         )
         if not carports:
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["carports"].isin(carports)]
 
+        # Filter kamar tidur ART
         maid_bedrooms = st.multiselect(
             "🛏 Jumlah Kamar Pembantu",
             df_filtered["maid_bedrooms"].dropna().unique(),
+            key="maid_bedroom_multiselect",
         )
         if not maid_bedrooms:
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["maid_bedrooms"].isin(maid_bedrooms)]
 
+        # Filter kamar mandi ART
         maid_bathrooms = st.multiselect(
             "🚽 Jumlah Kamar Mandi Pembantu",
             df_filtered["maid_bathrooms"].dropna().unique(),
+            key="maid_bathrooms_multiselect",
         )
         if not maid_bathrooms:
             df_filtered = df_filtered.copy()
@@ -254,8 +266,11 @@ def apply_filters(data_frame):
                 df_filtered["maid_bathrooms"].isin(maid_bathrooms)
             ]
 
+        # Filter garasi
         garages = st.multiselect(
-            "🏎️ Jumlah Garasi", df_filtered["garages"].dropna().unique()
+            "🏎️ Jumlah Garasi",
+            df_filtered["garages"].dropna().unique(),
+            key="garages_multiselect",
         )
         if not garages:
             df_filtered = df_filtered.copy()
@@ -267,6 +282,10 @@ def apply_filters(data_frame):
 
 # Apply filters
 df_filtered = apply_filters(df)
+
+
+st.sidebar.button("Clear All Filters")
+
 
 if st.checkbox("Show EDA"):
     # Exploratory Data Analysis (EDA)
