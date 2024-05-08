@@ -99,8 +99,8 @@ def apply_filters(data_frame):
         (df_filtered["price_in_rp"] >= min_price)
         & (df_filtered["price_in_rp"] <= max_price)
     ]
-    
-        # Filter Usia Bangunan
+
+    # Filter Usia Bangunan
     min_building_age, max_building_age = st.sidebar.slider(
         "Usia Bangunan (Tahun)",
         min_value=0,
@@ -261,6 +261,7 @@ def apply_filters(data_frame):
 
 # Apply filters
 df_filtered = apply_filters(df)
+
 
 st.sidebar.button("Clear All Filters")
 
