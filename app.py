@@ -33,6 +33,20 @@ except FileNotFoundError:
 except Exception as e:
     st.error(f"An error occurred: {e}")
 
+if st.sidebar.checkbox("Lihat EDA dulu !"):
+    # Exploratory Data Analysis (EDA)
+    st.subheader("Exploratory Data Analysis (EDA)")
+    st.write(df.head())
+
+    # Summary Statistics
+    st.write("Deskripsi Data:")
+    st.write(df.describe())
+
+    # Missing Values
+    st.write("Jumlah Missing Values per Kolom:")
+    st.write(df.isnull().sum())
+
+
 # Filter
 st.sidebar.header("Filter:")
 
@@ -98,9 +112,9 @@ max_price = max_price_column.number_input(
 # Menerapkan filter
 df_filtered = df[(df["price_in_rp"] >= min_price) & (df["price_in_rp"] <= max_price)]
 
-advanced_filters_clicked = st.sidebar.button("Advanced Filters")
-if advanced_filters_clicked:
-    min_building_age, max_building_age = st.sidebar.columns(2)
+# Expander untuk Advanced Filters
+with st.sidebar.expander("Advanced Filters", expanded=True):
+    min_building_age, max_building_age = st.columns(2)
     min_building_age = min_building_age.number_input(
         "Usia Bangunan Minimum (Tahun)", min_value=0, value=0
     )
@@ -115,7 +129,7 @@ if advanced_filters_clicked:
     ]
 
     # Filter Tahun Pembangunan
-    min_year_built, max_year_built = st.sidebar.columns(2)
+    min_year_built, max_year_built = st.columns(2)
     min_year_built = min_year_built.number_input(
         "Tahun Pembangunan Minimum",
         min_value=int(df["year_built"].min()),
@@ -134,7 +148,7 @@ if advanced_filters_clicked:
     ]
 
     # Filter Luas Tanah
-    min_land_size, max_land_size = st.sidebar.columns(2)
+    min_land_size, max_land_size = st.columns(2)
     min_land_size = min_land_size.number_input(
         "Luas Tanah Minimum (m^2)", min_value=0, value=0
     )
@@ -146,7 +160,7 @@ if advanced_filters_clicked:
     ]
 
     # Filter Luas Bangunan
-    min_building_size, max_building_size = st.sidebar.columns(2)
+    min_building_size, max_building_size = st.columns(2)
     min_building_size = min_building_size.number_input(
         "Luas Bangunan Minimum (m^2)", min_value=0, value=0
     )
@@ -159,105 +173,89 @@ if advanced_filters_clicked:
         (df["building_size_m2"] >= min_building_size)
         & (df["building_size_m2"] <= max_building_size)
     ]
-    floors = st.sidebar.multiselect("🪜 Jumlah Lantai", df["floors"].dropna().unique())
-    if not floors:
-        df_filtered = df.copy()
-    else:
+    floors = st.multiselect("🪜 Jumlah Lantai", df["floors"].dropna().unique())
+    if floors:
         df_filtered = df[df["floors"].isin(floors)]
+    else:
+        df_filtered = df.copy()
 
-    listrik = st.sidebar.multiselect(
+    listrik = st.multiselect(
         "🔌 Kelistrikan", df["electricity"].dropna().unique()
     )
-    if not listrik:
-        df_filtered = df.copy()
-    else:
+    if listrik:
         df_filtered = df[df["electricity"].isin(listrik)]
+    else:
+        df_filtered = df.copy()
 
-    kondisi = st.sidebar.multiselect(
+    kondisi = st.multiselect(
         "🏡 Kondisi", df["property_condition"].dropna().unique()
     )
-    if not kondisi:
-        df_filtered = df.copy()
-    else:
+    if kondisi:
         df_filtered = df[df["property_condition"].isin(kondisi)]
+    else:
+        df_filtered = df.copy()
 
-    orientasi = st.sidebar.multiselect(
+    orientasi = st.multiselect(
         "🧭 Orientasi Bangunan", df["building_orientation"].dropna().unique()
     )
-    if not orientasi:
-        df_filtered = df.copy()
-    else:
+    if orientasi:
         df_filtered = df[df["building_orientation"].isin(orientasi)]
-
-    furnish = st.sidebar.multiselect("🪑 Perabotan", df["furnishing"].dropna().unique())
-    if not furnish:
-        df_filtered = df.copy()
     else:
-        df_filtered = df[df["furnishing"].isin(furnish)]
+        df_filtered = df.copy()
 
-    bedrooms = st.sidebar.multiselect(
+    furnish = st.multiselect("🪑 Perabotan", df["furnishing"].dropna().unique())
+    if furnish:
+        df_filtered = df[df["furnishing"].isin(furnish)]
+    else:
+        df_filtered = df.copy()
+
+    bedrooms = st.multiselect(
         "🛏️ Jumlah Kamar Tidur", df["bedrooms"].dropna().unique()
     )
-    if not bedrooms:
-        df_filtered = df.copy()
-    else:
+    if bedrooms:
         df_filtered = df[df["bedrooms"].isin(bedrooms)]
+    else:
+        df_filtered = df.copy()
 
-    bathrooms = st.sidebar.multiselect(
+    bathrooms = st.multiselect(
         "🛁 Jumlah Kamar Mandi", df["bathrooms"].dropna().unique()
     )
-    if not bathrooms:
-        df_filtered = df.copy()
-    else:
+    if bathrooms:
         df_filtered = df[df["bathrooms"].isin(bathrooms)]
+    else:
+        df_filtered = df.copy()
 
-    carports = st.sidebar.multiselect(
+    carports = st.multiselect(
         "🏎 Jumlah Carport", df["carports"].dropna().unique()
     )
-    if not carports:
-        df_filtered = df.copy()
-    else:
+    if carports:
         df_filtered = df[df["carports"].isin(carports)]
+    else:
+        df_filtered = df.copy()
 
-    maid_bedrooms = st.sidebar.multiselect(
+    maid_bedrooms = st.multiselect(
         "🛏 Jumlah Kamar Pembantu", df["maid_bedrooms"].dropna().unique()
     )
-    if not maid_bedrooms:
-        df_filtered = df.copy()
-    else:
+    if maid_bedrooms:
         df_filtered = df[df["maid_bedrooms"].isin(maid_bedrooms)]
+    else:
+        df_filtered = df.copy()
 
-    maid_bathrooms = st.sidebar.multiselect(
+    maid_bathrooms = st.multiselect(
         "🚽 Jumlah Kamar Mandi Pembantu", df["maid_bathrooms"].dropna().unique()
     )
-    if not maid_bathrooms:
-        df_filtered = df.copy()
-    else:
+    if maid_bathrooms:
         df_filtered = df[df["maid_bathrooms"].isin(maid_bathrooms)]
-
-    garages = st.sidebar.multiselect("🏎️ Jumlah Garasi", df["garages"].dropna().unique())
-    if not garages:
-        df_filtered = df.copy()
     else:
-        df_filtered = df[df["garages"].isin(garages)]
+        df_filtered = df.copy()
 
-else:
-    df_filtered = df.copy()
+    garages = st.multiselect("🏎️ Jumlah Garasi", df["garages"].dropna().unique())
+    if garages:
+        df_filtered = df[df["garages"].isin(garages)]
+    else:
+        df_filtered = df.copy()
 
 if not df.empty:
-    st.write(df.head())
-
-    # Exploratory Data Analysis (EDA)
-    st.subheader("Exploratory Data Analysis (EDA)")
-
-    # Summary Statistics
-    st.write("Deskripsi Data:")
-    st.write(df.describe())
-
-    # Missing Values
-    st.write("Jumlah Missing Values per Kolom:")
-    st.write(df.isnull().sum())
-
     # bar chart
     st.subheader("Bar Chart")
     bar_chart = px.bar(
