@@ -97,7 +97,7 @@ max_price = max_price_column.number_input(
 )
 
 # Menerapkan filter
-df_filtered = df[
+df_filtered = df_filtered[
     (df_filtered["price_in_rp"] >= min_price)
     & (df_filtered["price_in_rp"] <= max_price)
 ]
@@ -214,40 +214,43 @@ with st.sidebar.expander("Advanced Filters", expanded=True):
         df_filtered = df_filtered[df_filtered["bedrooms"].isin(bedrooms)]
 
     bathrooms = st.multiselect(
-        "🛁 Jumlah Kamar Mandi", df["bathrooms"].dropna().unique()
+        "🛁 Jumlah Kamar Mandi", df_filtered["bathrooms"].dropna().unique()
     )
     if not bathrooms:
-        df_filtered = df.copy()
+        df_filtered = df_filtered.copy()
     else:
-        df_filtered = df[df["bathrooms"].isin(bathrooms)]
+        df_filtered = df_filtered[df_filtered["bathrooms"].isin(bathrooms)]
 
-    carports = st.multiselect("🏎 Jumlah Carport", df["carports"].dropna().unique())
+    carports = st.multiselect(
+        "🏎 Jumlah Carport", df_filtered["carports"].dropna().unique()
+    )
     if not carports:
-        df_filtered = df.copy()
+        df_filtered = df_filtered.copy()
     else:
-        df_filtered = df[df["carports"].isin(carports)]
+        df_filtered = df_filtered[df_filtered["carports"].isin(carports)]
 
     maid_bedrooms = st.multiselect(
-        "🛏 Jumlah Kamar Pembantu", df["maid_bedrooms"].dropna().unique()
+        "🛏 Jumlah Kamar Pembantu", df_filtered["maid_bedrooms"].dropna().unique()
     )
     if not maid_bedrooms:
-        df_filtered = df.copy()
+        df_filtered = df_filtered.copy()
     else:
-        df_filtered = df[df["maid_bedrooms"].isin(maid_bedrooms)]
+        df_filtered = df_filtered[df_filtered["maid_bedrooms"].isin(maid_bedrooms)]
 
     maid_bathrooms = st.multiselect(
-        "🚽 Jumlah Kamar Mandi Pembantu", df["maid_bathrooms"].dropna().unique()
+        "🚽 Jumlah Kamar Mandi Pembantu",
+        df_filtered["maid_bathrooms"].dropna().unique(),
     )
     if not maid_bathrooms:
-        df_filtered = df.copy()
+        df_filtered = df_filtered.copy()
     else:
-        df_filtered = df[df["maid_bathrooms"].isin(maid_bathrooms)]
+        df_filtered = df_filtered[df_filtered["maid_bathrooms"].isin(maid_bathrooms)]
 
     garages = st.multiselect("🏎️ Jumlah Garasi", df["garages"].dropna().unique())
     if not garages:
-        df_filtered = df.copy()
+        df_filtered = df_filtered.copy()
     else:
-        df_filtered = df[df["garages"].isin(garages)]
+        df_filtered = df_filtered[df_filtered["garages"].isin(garages)]
 
 
 if st.checkbox("Show EDA"):
