@@ -103,7 +103,9 @@ def apply_filters(data_frame):
         (df_filtered["price_in_rp"] >= min_price)
         & (df_filtered["price_in_rp"] <= max_price)
     ]
-
+    if df_filtered.empty:
+            st.warning("Data tidak ditemukan dengan filter yang diterapkan.")
+            return df_filtered
     # Expander untuk Advanced Filters
     with st.sidebar.expander("Advanced Filters", expanded=True):
         min_building_age, max_building_age = st.columns(2)
