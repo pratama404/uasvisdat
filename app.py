@@ -265,10 +265,10 @@ def apply_filters(data_frame):
     return df_filtered
 
 
-st.sidebar.button("Clear All Filters")
-
 # Apply filters
 df_filtered = apply_filters(df)
+
+st.sidebar.button("Clear All Filters")
 
 if st.checkbox("Show EDA"):
     # Exploratory Data Analysis (EDA)
