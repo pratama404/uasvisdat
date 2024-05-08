@@ -284,9 +284,6 @@ if st.checkbox("Show EDA"):
     st.write(df_filtered.isnull().sum())
 
 
-
-
-
 # Visualisasi data
 st.header("Visualisasi Data")
 
@@ -303,7 +300,7 @@ fig_tren_lokasi_harga = px.scatter_mapbox(
     mapbox_style="carto-positron",
     zoom=10,
     range_color=[df_filtered["price_in_rp"].min(), df_filtered["price_in_rp"].max()],
-    center={"lat": -6.2, "lon": 106.8}
+    center={"lat": -6.2, "lon": 106.8},
 )
 st.plotly_chart(fig_tren_lokasi_harga, use_container_width=True)
 
@@ -326,55 +323,82 @@ st.plotly_chart(fig_harga_properti, use_container_width=True)
 
 # Distribusi Harga Properti Berdasarkan Tipe Properti
 fig_harga_per_tipe = px.box(
-    df_filtered, x="property_type", y="price_in_rp", title="Distribusi Harga Properti Berdasarkan Tipe Properti"
+    df_filtered,
+    x="property_type",
+    y="price_in_rp",
+    title="Distribusi Harga Properti Berdasarkan Tipe Properti",
 )
 st.plotly_chart(fig_harga_per_tipe, use_container_width=True)
 
 # Distribusi Harga Properti Berdasarkan Jumlah Kamar Tidur
 fig_harga_per_kamar_tidur = px.box(
-    df_filtered, x="bedrooms", y="price_in_rp", title="Distribusi Harga Properti Berdasarkan Jumlah Kamar Tidur"
+    df_filtered,
+    x="bedrooms",
+    y="price_in_rp",
+    title="Distribusi Harga Properti Berdasarkan Jumlah Kamar Tidur",
 )
 st.plotly_chart(fig_harga_per_kamar_tidur, use_container_width=True)
 
 # Distribusi Harga Properti Berdasarkan Jumlah Kamar Mandi
 fig_harga_per_kamar_mandi = px.box(
-    df_filtered, x="bathrooms", y="price_in_rp", title="Distribusi Harga Properti Berdasarkan Jumlah Kamar Mandi"
+    df_filtered,
+    x="bathrooms",
+    y="price_in_rp",
+    title="Distribusi Harga Properti Berdasarkan Jumlah Kamar Mandi",
 )
 st.plotly_chart(fig_harga_per_kamar_mandi, use_container_width=True)
 
 # Distribusi Harga Properti Berdasarkan Luas Tanah
 fig_harga_per_luas_tanah = px.scatter(
-    df_filtered, x="land_size_m2", y="price_in_rp", title="Distribusi Harga Properti Berdasarkan Luas Tanah"
+    df_filtered,
+    x="land_size_m2",
+    y="price_in_rp",
+    title="Distribusi Harga Properti Berdasarkan Luas Tanah",
 )
 st.plotly_chart(fig_harga_per_luas_tanah, use_container_width=True)
 
 # Distribusi Harga Properti Berdasarkan Luas Bangunan
 fig_harga_per_luas_bangunan = px.scatter(
-    df_filtered, x="building_size_m2", y="price_in_rp", title="Distribusi Harga Properti Berdasarkan Luas Bangunan"
+    df_filtered,
+    x="building_size_m2",
+    y="price_in_rp",
+    title="Distribusi Harga Properti Berdasarkan Luas Bangunan",
 )
 st.plotly_chart(fig_harga_per_luas_bangunan, use_container_width=True)
 
 # Korelasi Antara Harga Properti dan Jumlah Kamar Tidur
 fig_corr_harga_kamar_tidur = px.scatter(
-    df_filtered, x="bedrooms", y="price_in_rp", title="Korelasi Antara Harga Properti dan Jumlah Kamar Tidur"
+    df_filtered,
+    x="bedrooms",
+    y="price_in_rp",
+    title="Korelasi Antara Harga Properti dan Jumlah Kamar Tidur",
 )
 st.plotly_chart(fig_corr_harga_kamar_tidur, use_container_width=True)
 
 # Korelasi Antara Harga Properti dan Jumlah Kamar Mandi
 fig_corr_harga_kamar_mandi = px.scatter(
-    df_filtered, x="bathrooms", y="price_in_rp", title="Korelasi Antara Harga Properti dan Jumlah Kamar Mandi"
+    df_filtered,
+    x="bathrooms",
+    y="price_in_rp",
+    title="Korelasi Antara Harga Properti dan Jumlah Kamar Mandi",
 )
 st.plotly_chart(fig_corr_harga_kamar_mandi, use_container_width=True)
 
 # Korelasi Antara Harga Properti dan Luas Tanah
 fig_corr_harga_luas_tanah = px.scatter(
-    df_filtered, x="land_size_m2", y="price_in_rp", title="Korelasi Antara Harga Properti dan Luas Tanah"
+    df_filtered,
+    x="land_size_m2",
+    y="price_in_rp",
+    title="Korelasi Antara Harga Properti dan Luas Tanah",
 )
 st.plotly_chart(fig_corr_harga_luas_tanah, use_container_width=True)
 
 # Korelasi Antara Harga Properti dan Luas Bangunan
 fig_corr_harga_luas_bangunan = px.scatter(
-    df_filtered, x="building_size_m2", y="price_in_rp", title="Korelasi Antara Harga Properti dan Luas Bangunan"
+    df_filtered,
+    x="building_size_m2",
+    y="price_in_rp",
+    title="Korelasi Antara Harga Properti dan Luas Bangunan",
 )
 st.plotly_chart(fig_corr_harga_luas_bangunan, use_container_width=True)
 
@@ -383,7 +407,7 @@ fig_distribusi_kecamatan = px.bar(
     df_filtered["district"].value_counts(),
     x=df_filtered["district"].value_counts().index,
     y=df_filtered["district"].value_counts().values,
-    title="Distribusi Properti Berdasarkan Kecamatan"
+    title="Distribusi Properti Berdasarkan Kecamatan",
 )
 st.plotly_chart(fig_distribusi_kecamatan, use_container_width=True)
 
@@ -392,7 +416,7 @@ fig_distribusi_sertifikat = px.pie(
     df_filtered["certificate"].value_counts(),
     values=df_filtered["certificate"].value_counts().values,
     names=df_filtered["certificate"].value_counts().index,
-    title="Distribusi Properti Berdasarkan Tipe Sertifikat"
+    title="Distribusi Properti Berdasarkan Tipe Sertifikat",
 )
 st.plotly_chart(fig_distribusi_sertifikat, use_container_width=True)
 
@@ -401,7 +425,7 @@ fig_distribusi_kondisi_bangunan = px.bar(
     df_filtered["property_condition"].value_counts(),
     x=df_filtered["property_condition"].value_counts().index,
     y=df_filtered["property_condition"].value_counts().values,
-    title="Distribusi Properti Berdasarkan Kondisi Bangunan"
+    title="Distribusi Properti Berdasarkan Kondisi Bangunan",
 )
 st.plotly_chart(fig_distribusi_kondisi_bangunan, use_container_width=True)
 
@@ -410,7 +434,7 @@ fig_distribusi_orientasi_bangunan = px.pie(
     df_filtered["building_orientation"].value_counts(),
     values=df_filtered["building_orientation"].value_counts().values,
     names=df_filtered["building_orientation"].value_counts().index,
-    title="Distribusi Properti Berdasarkan Orientasi Bangunan"
+    title="Distribusi Properti Berdasarkan Orientasi Bangunan",
 )
 st.plotly_chart(fig_distribusi_orientasi_bangunan, use_container_width=True)
 
@@ -419,7 +443,7 @@ fig_distribusi_fasilitas = px.bar(
     df_filtered["facilities"].str.len().value_counts().sort_index(),
     x=df_filtered["facilities"].str.len().value_counts().sort_index().index,
     y=df_filtered["facilities"].str.len().value_counts().sort_index().values,
-    title="Distribusi Properti Berdasarkan Fasilitas yang Tersedia"
+    title="Distribusi Properti Berdasarkan Fasilitas yang Tersedia",
 )
 st.plotly_chart(fig_distribusi_fasilitas, use_container_width=True)
 
@@ -477,7 +501,11 @@ st.plotly_chart(bar_chart)
 
 st.subheader("Distribusi Harga Properti")
 hist_chart = px.histogram(
-    df_filtered, x="price_in_rp", nbins=30, title="Distribusi Harga Properti", opacity=0.7
+    df_filtered,
+    x="price_in_rp",
+    nbins=30,
+    title="Distribusi Harga Properti",
+    opacity=0.7,
 )
 hist_chart.update_layout(
     xaxis_title="Harga (IDR)",
@@ -609,5 +637,3 @@ col2.plotly_chart(bathroom_chart, use_container_width=True)
 col3, col4 = st.columns(2)
 col3.plotly_chart(land_size_chart, use_container_width=True)
 col4.plotly_chart(building_size_chart, use_container_width=True)
-
-
