@@ -99,74 +99,68 @@ def apply_filters(data_frame):
         (df_filtered["price_in_rp"] >= min_price)
         & (df_filtered["price_in_rp"] <= max_price)
     ]
+    
+        # Filter Usia Bangunan
+    min_building_age, max_building_age = st.sidebar.slider(
+        "Usia Bangunan (Tahun)",
+        min_value=0,
+        max_value=int(df_filtered["building_age"].max()),
+        value=(0, int(df_filtered["building_age"].max())),
+    )
+
+    df_filtered = df_filtered[
+        (df_filtered["building_age"] >= min_building_age)
+        & (df_filtered["building_age"] <= max_building_age)
+    ]
+
+    # Filter Tahun Pembangunan
+    min_year_built, max_year_built = st.sidebar.slider(
+        "Tahun Pembangunan",
+        min_value=int(df_filtered["year_built"].min()),
+        max_value=int(df_filtered["year_built"].max()),
+        value=(
+            int(df_filtered["year_built"].min()),
+            int(df_filtered["year_built"].max()),
+        ),
+    )
+
+    df_filtered = df_filtered[
+        (df_filtered["year_built"] >= min_year_built)
+        & (df_filtered["year_built"] <= max_year_built)
+    ]
+
+    # Filter Luas Tanah
+    min_land_size, max_land_size = st.sidebar.slider(
+        "Luas Tanah (m²)",
+        min_value=0,
+        max_value=int(df_filtered["land_size_m2"].max()),
+        value=(0, int(df_filtered["land_size_m2"].max())),
+    )
+
+    df_filtered = df_filtered[
+        (df_filtered["land_size_m2"] >= min_land_size)
+        & (df_filtered["land_size_m2"] <= max_land_size)
+    ]
+
+    # Filter Luas Bangunan
+    min_building_size, max_building_size = st.sidebar.slider(
+        "Luas Bangunan (m²)",
+        min_value=0,
+        max_value=int(df_filtered["building_size_m2"].max()),
+        value=(0, int(df_filtered["building_size_m2"].max())),
+    )
+
+    df_filtered = df_filtered[
+        (df_filtered["building_size_m2"] >= min_building_size)
+        & (df_filtered["building_size_m2"] <= max_building_size)
+    ]
+
     if df_filtered.empty:
         st.warning("Data tidak ditemukan dengan filter yang diterapkan.")
         return df_filtered
     # Expander untuk Advanced Filters
     with st.sidebar.expander("Advanced Filters", expanded=True):
-        min_building_age, max_building_age = st.columns(2)
-        min_building_age = min_building_age.number_input(
-            "Usia Bangunan Minimum (Tahun)", min_value=0, value=0
-        )
-        max_building_age = max_building_age.number_input(
-            "Usia Bangunan Maksimum (Tahun)",
-            min_value=0,
-            value=int(df_filtered["building_age"].max()),
-        )
-        df_filtered = df_filtered[
-            (df_filtered["building_age"] >= min_building_age)
-            & (df_filtered["building_age"] <= max_building_age)
-        ]
 
-        # Filter Tahun Pembangunan
-        min_year_built, max_year_built = st.columns(2)
-        min_year_built = min_year_built.number_input(
-            "Tahun Pembangunan Minimum",
-            min_value=int(df_filtered["year_built"].min()),
-            max_value=int(df_filtered["year_built"].max()),
-            value=int(df_filtered["year_built"].min()),
-        )
-        max_year_built = max_year_built.number_input(
-            "Tahun Pembangunan Maksimum",
-            min_value=int(df_filtered["year_built"].min()),
-            max_value=int(df_filtered["year_built"].max()),
-            value=int(df_filtered["year_built"].max()),
-        )
-
-        df_filtered = df_filtered[
-            (df_filtered["year_built"] >= min_year_built)
-            & (df_filtered["year_built"] <= max_year_built)
-        ]
-
-        # Filter Luas Tanah
-        min_land_size, max_land_size = st.columns(2)
-        min_land_size = min_land_size.number_input(
-            "Luas Tanah Minimum (m²)", min_value=0, value=0
-        )
-        max_land_size = max_land_size.number_input(
-            "Luas Tanah Maksimum (m²)",
-            min_value=0,
-            value=int(df_filtered["land_size_m2"].max()),
-        )
-        df_filtered_land_size = df_filtered[
-            (df_filtered["land_size_m2"] >= min_land_size)
-            & (df_filtered["land_size_m2"] <= max_land_size)
-        ]
-
-        # Filter Luas Bangunan
-        min_building_size, max_building_size = st.columns(2)
-        min_building_size = min_building_size.number_input(
-            "Luas Bangunan Minimum (m²)", min_value=0, value=0
-        )
-        max_building_size = max_building_size.number_input(
-            "Luas Bangunan Maksimum (m²)",
-            min_value=0,
-            value=int(df_filtered["building_size_m2"].max()),
-        )
-        df_filtered_building_size = df_filtered[
-            (df_filtered["building_size_m2"] >= min_building_size)
-            & (df_filtered["building_size_m2"] <= max_building_size)
-        ]
         floors = st.multiselect(
             "🪜 Jumlah Lantai", df_filtered["floors"].dropna().unique()
         )
