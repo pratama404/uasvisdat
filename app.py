@@ -20,7 +20,6 @@ st.markdown(
 
 try:
     df = pd.read_excel("jabodetabek_house_price.xlsx")
-    df.fillna("Tidak Diketahui")
 except FileNotFoundError:
     st.error(
         "File not found. Please make sure you have uploaded the correct file or provide the correct path to the default file."
