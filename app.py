@@ -113,7 +113,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["building_age"].isin(building_age)]
-        df_filtered = df_filtered.sort_values(by="building_age", ascending=True)
 
         year_built = st.multiselect(
             "📆 Tahun Pembangunan", df_filtered["year_built"].dropna().unique()
@@ -122,7 +121,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["year_built"].isin(year_built)]
-        df_filtered = df_filtered.sort_values(by="year_built", ascending=True)
 
         land_size = st.multiselect(
             "🪨 Luas Tanah (m²)", df_filtered["land_size_m2"].dropna().unique()
@@ -131,7 +129,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["land_size_m2"].isin(land_size)]
-        df_filtered = df_filtered.sort_values(by="land_size_m2", ascending=True)
 
         building_size = st.multiselect(
             "🧱 Luas Bangunan (m²)", df_filtered["building_size_m2"].dropna().unique()
@@ -142,7 +139,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered[
                 df_filtered["building_size_m2"].isin(building_size)
             ]
-        df_filtered = df_filtered.sort_values(by="building_size_m2", ascending=True)
 
         floors = st.multiselect(
             "🪜 Jumlah Lantai", df_filtered["floors"].dropna().unique()
@@ -151,7 +147,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["floors"].isin(floors)]
-        df_filtered = df_filtered.sort_values(by="floors", ascending=True)
 
         listrik = st.multiselect(
             "🔌 Kelistrikan", df_filtered["electricity"].dropna().unique()
@@ -160,7 +155,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["electricity"].isin(listrik)]
-        df_filtered = df_filtered.sort_values(by="electricity", ascending=True)
 
         kondisi = st.multiselect(
             "🏡 Kondisi", df_filtered["property_condition"].dropna().unique()
@@ -169,7 +163,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["property_condition"].isin(kondisi)]
-        df_filtered = df_filtered.sort_values(by="property_condition", ascending=True)
 
         orientasi = st.multiselect(
             "🧭 Orientasi Bangunan",
@@ -181,7 +174,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered[
                 df_filtered["building_orientation"].isin(orientasi)
             ]
-        df_filtered = df_filtered.sort_values(by="building_orientation", ascending=True)
 
         furnish = st.multiselect(
             "🪑 Perabotan", df_filtered["furnishing"].dropna().unique()
@@ -190,7 +182,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["furnishing"].isin(furnish)]
-        df_filtered = df_filtered.sort_values(by="furnishing", ascending=True)
 
         bedrooms = st.multiselect(
             "🛏️ Jumlah Kamar Tidur", df_filtered["bedrooms"].dropna().unique()
@@ -199,7 +190,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["bedrooms"].isin(bedrooms)]
-        df_filtered = df_filtered.sort_values(by="bedrooms", ascending=True)
 
         bathrooms = st.multiselect(
             "🛁 Jumlah Kamar Mandi", df_filtered["bathrooms"].dropna().unique()
@@ -208,7 +198,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["bathrooms"].isin(bathrooms)]
-        df_filtered = df_filtered.sort_values(by="bathrooms", ascending=True)
 
         carports = st.multiselect(
             "🏎 Jumlah Carport", df_filtered["carports"].dropna().unique()
@@ -217,7 +206,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["carports"].isin(carports)]
-        df_filtered = df_filtered.sort_values(by="carports", ascending=True)
 
         maid_bedrooms = st.multiselect(
             "🛏 Jumlah Kamar Pembantu",
@@ -227,7 +215,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["maid_bedrooms"].isin(maid_bedrooms)]
-        df_filtered = df_filtered.sort_values(by="maid_bedrooms", ascending=True)
 
         maid_bathrooms = st.multiselect(
             "🚽 Jumlah Kamar Mandi Pembantu",
@@ -239,7 +226,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered[
                 df_filtered["maid_bathrooms"].isin(maid_bathrooms)
             ]
-        df_filtered = df_filtered.sort_values(by="maid_bathrooms", ascending=True)
 
         garages = st.multiselect(
             "🏎️ Jumlah Garasi", df_filtered["garages"].dropna().unique()
@@ -248,7 +234,6 @@ def apply_filters(data_frame):
             df_filtered = df_filtered.copy()
         else:
             df_filtered = df_filtered[df_filtered["garages"].isin(garages)]
-        df_filtered = df_filtered.sort_values(by="garages", ascending=True)
 
     return df_filtered
 
