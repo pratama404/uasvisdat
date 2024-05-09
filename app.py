@@ -379,6 +379,9 @@ with col2:
         y=df_filtered["city"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Kota",
     )
+    fig.update_traces(
+        text=df_filtered["city"].value_counts().values, textposition="outside"
+    )
     st.plotly_chart(fig, use_container_width=True)
 
 # TIPE SERTIFIKAT
@@ -395,13 +398,16 @@ with col1:
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
-    fig_distribusi_kondisi_bangunan = px.bar(
+    fig = px.bar(
         df_filtered["certificate"].value_counts(),
         x=df_filtered["certificate"].value_counts().index,
         y=df_filtered["certificate"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Tipe Sertifikat",
     )
-    st.plotly_chart(fig_distribusi_kondisi_bangunan, use_container_width=True)
+    fig.update_traces(
+        text=df_filtered["certificate"].value_counts().values, textposition="outside"
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
 # Orientasi Bangunan
 with col1:
@@ -420,13 +426,17 @@ with col1:
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
-    fig_distribusi_kondisi_bangunan = px.bar(
+    fig = px.bar(
         df_filtered["building_orientation"].value_counts(),
         x=df_filtered["building_orientation"].value_counts().index,
         y=df_filtered["building_orientation"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Orientasi Bangunan",
     )
-    st.plotly_chart(fig_distribusi_kondisi_bangunan, use_container_width=True)
+    fig.update_traces(
+        text=df_filtered["building_orientation"].value_counts().values,
+        textposition="outside",
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
 # KONDISIIIIIIIII
 with col1:
@@ -442,13 +452,17 @@ with col1:
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
-    fig_distribusi_kondisi_bangunan = px.bar(
+    fig = px.bar(
         df_filtered["property_condition"].value_counts(),
         x=df_filtered["property_condition"].value_counts().index,
         y=df_filtered["property_condition"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Kondisi Bangunan",
     )
-    st.plotly_chart(fig_distribusi_kondisi_bangunan, use_container_width=True)
+    fig.update_traces(
+        text=df_filtered["property_condition"].value_counts().values,
+        textposition="outside",
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
 
 # BOX PLOT
