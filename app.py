@@ -280,16 +280,16 @@ def Home(df_filtered):
     # Menampilkan summary
     total1, total2, total3, total4 = st.columns(4, gap="large")
     with total1:
-        st.info(":pencil: Jumlah Rumah yang Dijual")
+        st.info(":pencil: Jumlah Properti yang Dijual")
         st.metric(label="Count of Houses", value=f"{jumlah_rumah:.2f}")
     with total2:
-        st.info(":pencil: Rata-Rata Harga Rumah")
+        st.info(":pencil: Rata-Rata Harga Properti")
         st.metric(label="Average of Price", value=f"${avg_harga_miliar:.2f}B")
     with total3:
-        st.info(":pencil: Harga Rumah Tertinggi")
+        st.info(":pencil: Harga Properti Tertinggi")
         st.metric(label="Max of Price", value=f"${max_harga_miliar}B")
     with total4:
-        st.info(":pencil: Harga Rumah Terdendah")
+        st.info(":pencil: Harga Properti Terdendah")
         st.metric(label="Min of Price", value=f"${min_harga_juta}M")
 
 
