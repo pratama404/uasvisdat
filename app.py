@@ -296,7 +296,6 @@ def Home(df_filtered):
 # Panggil method yang sudah dibuat dengan DataFrame yang sudah difilter
 Home(df_filtered)
 
-# Visualisasi data
 st.header("Visualisasi Data")
 
 col1, col2 = st.columns((2))
@@ -306,7 +305,7 @@ col1, col2 = st.columns((2))
 #
 #
 #
-#
+
 topChartHarga = df_filtered.groupby(by="district", as_index=False)["price_in_rp"].sum()
 
 # Sorting berdasarkan kolom "price_in_rp" secara descending
