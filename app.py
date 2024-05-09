@@ -301,6 +301,61 @@ st.header("Visualisasi Data")
 
 col1, col2 = st.columns((2))
 
+
+# TOP CHART HARGA
+#
+#
+#
+#
+topChartHarga = df_filtered.groupby(by="district", as_index=False)["price_in_rp"].sum()
+
+# Sorting berdasarkan kolom "price_in_rp" secara descending
+topChartHarga = topChartHarga.sort_values(by="price_in_rp", ascending=True)
+
+# Mengambil 5 data teratas
+topChartHarga = topChartHarga.tail(5)
+
+with col1:
+    fig = px.bar(
+        topChartHarga,
+        x="price_in_rp",
+        y="district",
+        title="Top 5 Kecamatan dengan Total Harga Properti Tertinggi",
+        template="seaborn",
+        barmode="group",
+        text="price_in_rp",
+    )
+    fig.update_traces(texttemplate="%{text}", textposition="inside")
+    st.plotly_chart(fig, use_container_width=True)
+
+
+# TopChartJumlah
+#
+#
+topChartJumlah = (
+    df_filtered.groupby(["district"]).size().reset_index(name="jumlah_rumah")
+)
+
+# Sorting berdasarkan kolom "jumlah_rumah" secara descending
+topChartJumlah = topChartJumlah.sort_values(by="jumlah_rumah", ascending=True)
+
+# Mengambil 5 data teratas
+topChartJumlah = topChartJumlah.tail(5)
+
+with col2:
+    fig = px.bar(
+        topChartJumlah,
+        x="jumlah_rumah",
+        y="district",
+        title="Top 5 Kecamatan dengan Jumlah Properti yang Dijual Tertinggi",
+        template="seaborn",
+        barmode="group",
+        text="jumlah_rumah",
+    )
+    fig.update_traces(texttemplate="%{text}", textposition="inside")
+    st.plotly_chart(fig, use_container_width=True)
+
+# PIECHART
 # persentase Properti Berdasarkan kota
 with col1:
     fig_persentase_kota = px.pie(
@@ -565,7 +620,7 @@ with st.expander("TimeSeries Jumlah Properti"):
 # TREE MAP
 # TREE MAP
 jumlahByKotaDist = (
-    df.groupby(["city", "district", "certificate"])
+    df_filtered.groupby(["city", "district", "certificate"])
     .size()
     .reset_index(name="jumlah_rumah")
 )
@@ -622,7 +677,9 @@ cl1, cl2 = st.columns(2)
 with cl1:
     with st.expander("Data Rumah yang Dijual"):
         jumlahByKotaDist = (
-            df.groupby(["city", "district"]).size().reset_index(name="jumlah_rumah")
+            df_filtered.groupby(["city", "district"])
+            .size()
+            .reset_index(name="jumlah_rumah")
         )
         st.write(jumlahByKotaDist.style.background_gradient(cmap="Blues"))
         csv = jumlahByKotaDist.to_csv(index=False).encode("utf-8")
