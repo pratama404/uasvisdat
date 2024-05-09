@@ -3,6 +3,8 @@ import plotly.express as px
 import pandas as pd
 import os
 import warnings
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 warnings.filterwarnings("ignore")
 
@@ -702,3 +704,28 @@ with cl2:
             mime="text/csv",
             help="Tekan untuk download data dalam bentuk CSV",
         )
+
+
+            # Density Plot
+ jumlahByKotaDist = (
+            df_filtered.groupby(["city", "district"])
+            .size()
+            .reset_index(name="jumlah_rumah")
+        )
+st.subheader(":chart_with_upwards_trend: Density Plot Jumlah Rumah Berdasarkan Kota")
+plt.figure(figsize=(12, 8))
+sns.kdeplot(df_filtered, x="city", y="jumlah_rumah", fill=True, palette="crest", alpha=0.7)
+plt.xlabel("city")
+plt.ylabel("jumlah_rumah")
+plt.xticks(rotation=45)
+st.pyplot()
+
+    # Box Plot
+st.subheader(":chart_with_downwards_trend: Box Plot Harga Properti Berdasarkan Kota")
+plt.figure(figsize=(12, 8))
+sns.boxplot(df_filtered, x="city", y="price_in_rp", palette="viridis")
+plt.xlabel("city")
+plt.ylabel("price_in_rp")
+plt.xticks(rotation=45)
+st.pyplot()
+
