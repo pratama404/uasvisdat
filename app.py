@@ -9,10 +9,8 @@ import matplotlib.pyplot as plt
 
 warnings.filterwarnings("ignore")
 
-st.set_page_config(
-    page_title="Jabodetabek House Price", page_icon=":bar_chart:", layout="wide"
-)
-st.title(":bar_chart: Jabodetabek House Price")
+st.set_page_config(page_title="🏠 Jabodetabek House Price", layout="wide")
+st.title("🏠 Jabodetabek House Price")
 st.text("Ageng Putra Pratama - 09010622001")
 st.text("Muhammad Rifqi Naufal Irsyad - 09010622010")
 st.text("Rizki Cahyani Fitonah")
@@ -732,5 +730,13 @@ fig_heatmap = px.density_heatmap(
 fig_heatmap.update_xaxes(tickangle=45)
 st.plotly_chart(fig_heatmap, use_container_width=True)
 
-st.header("Full Data")
-st.write(df_filtered)
+with st.expander("Data Rumah Sesuai Filter"):
+    st.write(df_filtered.style.background_gradient(cmap="Blues"))
+    csv = df_filtered.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        "Download Data",
+        data=csv,
+        file_name="Data Full Data.csv",
+        mime="text/csv",
+        help="Tekan untuk download data dalam bentuk CSV",
+    )
