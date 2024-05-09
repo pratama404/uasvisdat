@@ -715,3 +715,8 @@ with cl2:
             mime="text/csv",
             help="Tekan untuk download data dalam bentuk CSV",
         )
+# Sunburst Chart
+fig_sunburst = px.sunburst(df_filtered, path=['city', 'district'], values='price_in_rp')
+fig_sunburst.update_layout(title="Sunburst Chart Harga Properti Berdasarkan Kota dan Kecamatan")
+st.plotly_chart(fig_sunburst)
+
