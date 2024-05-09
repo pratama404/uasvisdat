@@ -577,8 +577,11 @@ st.plotly_chart(fig_scatter_mapbox, use_container_width=True)
 cl1, cl2 = st.columns(2)
 with cl1:
     with st.expander("Data Rumah yang Dijual"):
-        st.write(df_filtered.style.background_gradient(cmap="Blues"))
-        csv = df_filtered.to_csv(index=False).encode("utf-8")
+        jumlahByKotaDist = (
+            df.groupby(["city", "district"]).size().reset_index(name="jumlah_rumah")
+        )
+        st.write(jumlahByKotaDist.style.background_gradient(cmap="Blues"))
+        csv = jumlahByKotaDist.to_csv(index=False).encode("utf-8")
         st.download_button(
             "Download Data",
             data=csv,
