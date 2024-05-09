@@ -575,6 +575,17 @@ with col2:
     )
     st.plotly_chart(fig_corr_harga_luas_bangunan, use_container_width=True)
 
+# Box Plot
+fig_box = px.box(
+    df_filtered,
+    x="city",
+    y="price_in_rp",
+    title="Box Plot Harga Properti Berdasarkan Kota",
+    template="seaborn",
+)
+fig_box.update_layout(xaxis_title="City", yaxis_title="Price (Rp)")
+fig_box.update_xaxes(tickangle=45)
+st.plotly_chart(fig_box, use_container_width=True)
 
 # Tren Harga Properti dari Waktu ke Waktu
 linechartHarga = df_filtered.groupby("year_built")["price_in_rp"].sum().reset_index()
@@ -704,28 +715,3 @@ with cl2:
             mime="text/csv",
             help="Tekan untuk download data dalam bentuk CSV",
         )
-
-
-            # Density Plot
- jumlahByKota = (
-            df_filtered.groupby(["city", "district"])
-            .size()
-            .reset_index(name="jumlah_rumah")
-        )
-st.subheader(":chart_with_upwards_trend: Density Plot Jumlah Rumah Berdasarkan Kota")
-plt.figure(figsize=(12, 8))
-sns.kdeplot(df_filtered, x="city", y="jumlah_rumah", fill=True, palette="crest", alpha=0.7)
-plt.xlabel("city")
-plt.ylabel("jumlah_rumah")
-plt.xticks(rotation=45)
-st.pyplot()
-
-    # Box Plot
-st.subheader(":chart_with_downwards_trend: Box Plot Harga Properti Berdasarkan Kota")
-plt.figure(figsize=(12, 8))
-sns.boxplot(df_filtered, x="city", y="price_in_rp", palette="viridis")
-plt.xlabel("city")
-plt.ylabel("price_in_rp")
-plt.xticks(rotation=45)
-st.pyplot()
-
