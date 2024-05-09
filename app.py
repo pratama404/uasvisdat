@@ -587,6 +587,19 @@ fig_box.update_layout(xaxis_title="City", yaxis_title="Price (Rp)")
 fig_box.update_xaxes(tickangle=45)
 st.plotly_chart(fig_box, use_container_width=True)
 
+# Violin Plot Harga Properti Berdasarkan Kota
+fig_violin = px.violin(
+    df_filtered,
+    x="city",
+    y="jumlah_rumah",
+    title="Violin Plot Harga Properti Berdasarkan Kota",
+    template="seaborn",
+)
+fig_violin.update_layout(xaxis_title="City", yaxis_title="Jumlah Rumah")
+fig_violin.update_xaxes(tickangle=45)
+st.plotly_chart(fig_violin, use_container_width=True)
+
+
 # Tren Harga Properti dari Waktu ke Waktu
 linechartHarga = df_filtered.groupby("year_built")["price_in_rp"].sum().reset_index()
 fig_tren_harga_waktu = px.area(
@@ -719,4 +732,63 @@ with cl2:
 fig_sunburst = px.sunburst(df_filtered, path=['city', 'district'], values='price_in_rp')
 fig_sunburst.update_layout(title="Sunburst Chart Harga Properti Berdasarkan Kota dan Kecamatan")
 st.plotly_chart(fig_sunburst)
+#Heatmap
+heatmap_data = (
+    df_filtered.groupby(["city", "property_condition"])
+    .size()
+    .reset_index(name="count")
+)
+fig_heatmap = px.density_heatmap(
+    heatmap_data,
+    x="city",
+    y="property_condition",
+    z="count",
+    title="Heatmap Antara Kota dan Kondisi Bangunan",
+    marginal_x="rug",
+    marginal_y="histogram",
+)
+fig_heatmap.update_xaxes(tickangle=45)
+st.plotly_chart(fig_heatmap, use_container_width=True)
 
+
+# Load GeoJSON data for Indonesia
+
+# Membuat DataFrame untuk jumlah rumah di setiap kota
+jumlah_rumah_per_kota = (
+    df_filtered.groupby(["city"])
+    .size()
+    .reset_index(name="jumlah_rumah")
+)
+
+# Melakukan merge antara DataFrame jumlah rumah dengan data untuk choropleth
+import plotly.express as px
+
+# Mengambil data geojson
+geojson = px.data.election_geojson()
+
+# Membuat DataFrame untuk jumlah rumah di setiap kota
+jumlah_rumah_per_kota = (
+    df_filtered.groupby(["city"])
+    .size()
+    .reset_index(name="jumlah_rumah")
+)
+
+# Melakukan merge antara DataFrame jumlah rumah dengan data untuk choropleth
+df_choropleth = jumlah_rumah_per_kota.merge(
+    df_filtered[["city", "lat", "long"]], on="city", how="inner"
+)
+
+# Membuat choropleth map
+fig = px.choropleth_mapbox(
+    df_choropleth,
+    geojson=geojson,
+    color="jumlah_rumah",
+    locations="city",
+    featureidkey="properties.city",
+    center={"lat": df_choropleth["lat"].mean(), "lon": df_choropleth["long"].mean()},
+    mapbox_style="carto-positron",
+    zoom=9,
+    title="Jumlah Rumah yang Dijual Berdasarkan Kota",
+)
+fig.update_layout(margin={"r": 0, "t": 30, "l": 0, "b": 0})
+st.plotly_chart(fig, use_container_width=True)
