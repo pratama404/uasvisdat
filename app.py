@@ -573,3 +573,29 @@ fig_scatter_mapbox = px.scatter_mapbox(
 )
 
 st.plotly_chart(fig_scatter_mapbox, use_container_width=True)
+
+cl1, cl2 = st.columns(2)
+with cl1:
+    with st.expander("Data Rumah yang Dijual"):
+        st.write(df_filtered.style.background_gradient(cmap="Blues"))
+        csv = df_filtered.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            "Download Data",
+            data=csv,
+            file_name="Data Rumah.csv",
+            mime="txt/csv",
+            help="Tekan untuk download data dalam bentuk CSV",
+        )
+
+with cl2:
+    with st.expander("Data Harga"):
+        city = df_filtered.groupby(by="city", as_index=False)["price_in_rp"].sum()
+        st.write(city.style.background_gradient(cmap="Oranges"))
+        csv = city.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            "Download Data",
+            data=csv,
+            file_name="Data Harga.csv",
+            mime="txt/csv",
+            help="Tekan untuk download data dalam bentuk CSV",
+        )
