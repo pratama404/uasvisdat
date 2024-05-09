@@ -278,15 +278,8 @@ col1, col2 = st.columns((2))
 
 
 # TOP CHART HARGA
-#
-#
-#
 topChartHarga = df_filtered.groupby(by="district", as_index=False)["price_in_rp"].sum()
-
-# Sorting berdasarkan kolom "price_in_rp" secara descending
 topChartHarga = topChartHarga.sort_values(by="price_in_rp", ascending=True)
-
-# Mengambil 5 data teratas
 topChartHarga = topChartHarga.tail(5)
 
 with col1:
@@ -298,22 +291,17 @@ with col1:
         template="seaborn",
         barmode="group",
         text="price_in_rp",
+        labels={"price_in_rp": "", "district": ""},
     )
     fig.update_traces(texttemplate="%{text}", textposition="inside")
     st.plotly_chart(fig, use_container_width=True)
 
 
 # TopChartJumlah
-#
-#
 topChartJumlah = (
     df_filtered.groupby(["district"]).size().reset_index(name="jumlah_rumah")
 )
-
-# Sorting berdasarkan kolom "jumlah_rumah" secara descending
 topChartJumlah = topChartJumlah.sort_values(by="jumlah_rumah", ascending=True)
-
-# Mengambil 5 data teratas
 topChartJumlah = topChartJumlah.tail(5)
 
 with col2:
@@ -325,6 +313,7 @@ with col2:
         template="seaborn",
         barmode="group",
         text="jumlah_rumah",
+        labels={"jumlah_rumah": "", "district": ""},
     )
     fig.update_traces(texttemplate="%{text}", textposition="inside")
     st.plotly_chart(fig, use_container_width=True)
@@ -390,15 +379,17 @@ with col2:
 
 # KOTAAAAAAA
 with col1:
+    cityPrice = df_filtered.groupby(by="city", as_index=False)["price_in_rp"].sum()
+    cityPrice = cityPrice.sort_values(by="price_in_rp", ascending=False)
     fig = px.bar(
-        df_filtered,
+        cityPrice,
         x="city",
         y="price_in_rp",
+        text="price_in_rp",
         title="Harga Properti di Jabodetabek Berdasarkan Kota",
-        labels={"city": "Kota", "price_in_rp": "Harga (IDR)"},
-        color="city",
-        color_discrete_sequence=px.colors.qualitative.Vivid,
+        labels={"city": "", "price_in_rp": ""},
     )
+    fig.update_traces(texttemplate="%{text:.2s}", textposition="outside")
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
@@ -407,7 +398,7 @@ with col2:
         x=df_filtered["city"].value_counts().index,
         y=df_filtered["city"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Kota",
-        labels={"x": "Kota", "y": "Jumlah Properti"},
+        labels={"x": "", "y": ""},
     )
     fig.update_traces(
         text=df_filtered["city"].value_counts().values, textposition="outside"
@@ -416,15 +407,19 @@ with col2:
 
 # TIPE SERTIFIKAT
 with col1:
+    certiPrice = df_filtered.groupby(by="certificate", as_index=False)[
+        "price_in_rp"
+    ].sum()
+    certiPrice = certiPrice.sort_values(by="price_in_rp", ascending=False)
     fig = px.bar(
-        df_filtered,
+        certiPrice,
         x="certificate",
         y="price_in_rp",
+        text="price_in_rp",
         title="Harga Properti di Jabodetabek Berdasarkan Tipe Sertifikat",
-        labels={"certificate": "Tipe Sertifikat", "price_in_rp": "Harga (IDR)"},
-        color="certificate",
-        color_discrete_sequence=px.colors.qualitative.Vivid,
+        labels={"certificate": "", "price_in_rp": ""},
     )
+    fig.update_traces(texttemplate="%{text:.2s}", textposition="outside")
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
@@ -433,7 +428,7 @@ with col2:
         x=df_filtered["certificate"].value_counts().index,
         y=df_filtered["certificate"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Tipe Sertifikat",
-        labels={"x": "Tipe Sertifikat", "y": "Jumlah Properti"},
+        labels={"x": "", "y": ""},
     )
     fig.update_traces(
         text=df_filtered["certificate"].value_counts().values, textposition="outside"
@@ -442,18 +437,19 @@ with col2:
 
 # Orientasi Bangunan
 with col1:
+    OrientPrice = df_filtered.groupby(by="building_orientation", as_index=False)[
+        "price_in_rp"
+    ].sum()
+    OrientPrice = OrientPrice.sort_values(by="price_in_rp", ascending=False)
     fig = px.bar(
-        df_filtered,
+        OrientPrice,
         x="building_orientation",
         y="price_in_rp",
+        text="price_in_rp",
         title="Harga Properti di Jabodetabek Berdasarkan Orientasi Properti",
-        labels={
-            "building_orientation": "Orientasi Properti",
-            "price_in_rp": "Harga (IDR)",
-        },
-        color="building_orientation",
-        color_discrete_sequence=px.colors.qualitative.Vivid,
+        labels={"building_orientation": "", "price_in_rp": ""},
     )
+    fig.update_traces(texttemplate="%{text:.2s}", textposition="outside")
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
@@ -462,7 +458,7 @@ with col2:
         x=df_filtered["building_orientation"].value_counts().index,
         y=df_filtered["building_orientation"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Orientasi Properti",
-        labels={"x": "Building Orientation", "y": "Jumlah Properti"},
+        labels={"x": "", "y": ""},
     )
     fig.update_traces(
         text=df_filtered["building_orientation"].value_counts().values,
@@ -472,15 +468,19 @@ with col2:
 
 # KONDISIIIIIIIII
 with col1:
+    CondiPrice = df_filtered.groupby(by="property_condition", as_index=False)[
+        "price_in_rp"
+    ].sum()
+    CondiPrice = CondiPrice.sort_values(by="price_in_rp", ascending=False)
     fig = px.bar(
-        df_filtered,
+        CondiPrice,
         x="property_condition",
         y="price_in_rp",
+        text="price_in_rp",
         title="Harga Properti di Jabodetabek Berdasarkan Kondisi Properti",
-        labels={"property_condition": "Kondisi Bangunan", "price_in_rp": "Harga (IDR)"},
-        color="property_condition",
-        color_discrete_sequence=px.colors.qualitative.Vivid,
+        labels={"property_condition": "", "price_in_rp": ""},
     )
+    fig.update_traces(texttemplate="%{text:.2s}", textposition="outside")
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
@@ -489,7 +489,7 @@ with col2:
         x=df_filtered["property_condition"].value_counts().index,
         y=df_filtered["property_condition"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Kondisi Properti",
-        labels={"x": "Kondisi Properti", "y": "Jumlah Properti"},
+        labels={"x": "", "y": ""},
     )
     fig.update_traces(
         text=df_filtered["property_condition"].value_counts().values,
@@ -508,26 +508,6 @@ df_filtered["count_bedrooms"] = df_filtered.groupby("bedrooms")["bedrooms"].tran
     "count"
 )
 
-# Korelasi Antara Harga Properti dan Jumlah Kamar Tidur
-with col1:
-    fig_corr_harga_kamar_tidur = px.scatter(
-        df_filtered,
-        x="bedrooms",
-        y="price_in_rp",
-        title="Korelasi Antara Harga Properti dan Jumlah Kamar Tidur",
-    )
-    st.plotly_chart(fig_corr_harga_kamar_tidur, use_container_width=True)
-
-# Korelasi Antara Harga Properti dan Jumlah Kamar Mandi
-with col2:
-    fig_corr_harga_kamar_mandi = px.scatter(
-        df_filtered,
-        x="bathrooms",
-        y="price_in_rp",
-        title="Korelasi Antara Harga Properti dan Jumlah Kamar Mandi",
-    )
-    st.plotly_chart(fig_corr_harga_kamar_mandi, use_container_width=True)
-
 # Korelasi Antara Harga Properti dan Luas Tanah
 with col1:
     fig_corr_harga_luas_tanah = px.scatter(
@@ -535,6 +515,7 @@ with col1:
         x="land_size_m2",
         y="price_in_rp",
         title="Korelasi Antara Harga Properti dan Luas Tanah",
+        labels={"land_size_m2": "", "price_in_rp": ""},
     )
     st.plotly_chart(fig_corr_harga_luas_tanah, use_container_width=True)
 
@@ -545,9 +526,40 @@ with col2:
         x="building_size_m2",
         y="price_in_rp",
         title="Korelasi Antara Harga Properti dan Luas Bangunan",
+        labels={"building_size_m2": "", "price_in_rp": ""},
     )
     st.plotly_chart(fig_corr_harga_luas_bangunan, use_container_width=True)
 
+with col1:
+    fig = px.scatter(
+        df_filtered,
+        x="city",
+        y="price_in_rp",
+        symbol="city",
+        size="price_in_rp",
+        color="city",
+        hover_data="price_in_rp",
+        title="Korelasi Antara Harga Properti dan Kota",
+        labels={"city": "", "price_in_rp": ""},
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+with col2:
+    jumlahByKota = (
+        df_filtered.groupby(["city"]).size().reset_index(name="Jumlah Properti")
+    )
+    fig = px.scatter(
+        jumlahByKota,
+        x="city",
+        y="Jumlah Properti",
+        symbol="city",
+        size="Jumlah Properti",
+        color="city",
+        hover_data="Jumlah Properti",
+        title="Korelasi Antara Jumlah Properti dan Kota",
+        labels={"city": "", "Jumlah Properti": ""},
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
 # Box Plot
 fig_box = px.box(
@@ -557,7 +569,7 @@ fig_box = px.box(
     title="Box Plot Harga Properti Berdasarkan Kota",
     template="seaborn",
 )
-fig_box.update_layout(xaxis_title="City", yaxis_title="Price (Rp)")
+fig_box.update_layout(xaxis_title="", yaxis_title="")
 fig_box.update_xaxes(tickangle=45)
 st.plotly_chart(fig_box, use_container_width=True)
 
@@ -575,7 +587,7 @@ fig_violin = px.violin(
     title="Violin Plot Harga Properti Berdasarkan Kota",
     template="seaborn",
 )
-fig_violin.update_layout(xaxis_title="City", yaxis_title="Jumlah Rumah")
+fig_violin.update_layout(xaxis_title="", yaxis_title="")
 fig_violin.update_xaxes(tickangle=45)
 st.plotly_chart(fig_violin, use_container_width=True)
 
@@ -587,16 +599,16 @@ fig_tren_harga_waktu = px.area(
     x="year_built",
     y="price_in_rp",
     title="Tren Harga Properti berdasarkan Tahun Pembangunan",
+    labels={"year_built": "", "price_in_rp": ""},
 )
 st.plotly_chart(fig_tren_harga_waktu, use_container_width=True)
 
 with st.expander("TimeSeries Harga Bangunan"):
     st.write(linechartHarga.T.style.background_gradient(cmap="Blues"))
-    csv = linechartHarga.to_csv(index=False).encode("UTf-8")
+    csv = linechartHarga.to_csv(index=False).encode("UTF-8")
     st.download_button(
         "Download Data", data=csv, file_name="TimeSeriesHarga.csv", mime="text/csv"
     )
-# -----------------------------------------------------------------
 
 # Hitung jumlah properti yang dijual berdasarkan tahun pembangunan
 properti_per_tahun = df_filtered["year_built"].value_counts().reset_index()
@@ -608,12 +620,13 @@ fig = px.area(
     x="year_built",
     y="jumlah_properti",
     title="Tren Banyaknya Properti Dijual berdasarkan Tahun Pembangunan",
+    labels={"year_built": "", "jumlah_properti": ""},
 )
 st.plotly_chart(fig, use_container_width=True)
 
 with st.expander("TimeSeries Jumlah Properti"):
     st.write(properti_per_tahun.T.style.background_gradient(cmap="Blues"))
-    csv = properti_per_tahun.to_csv(index=False).encode("UTf-8")
+    csv = properti_per_tahun.to_csv(index=False).encode("UTF-8")
     st.download_button(
         "Download Data",
         data=csv,
