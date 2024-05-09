@@ -707,7 +707,7 @@ with cl2:
 
 
             # Density Plot
- jumlahByKotaDist = (
+ jumlahByKota = (
             df_filtered.groupby(["city", "district"])
             .size()
             .reset_index(name="jumlah_rumah")
