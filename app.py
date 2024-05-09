@@ -299,7 +299,6 @@ def Home(df_filtered):
 # Panggil method yang sudah dibuat dengan DataFrame yang sudah difilter
 Home(df_filtered)
 
-st.header("Visualisasi Data")
 
 col1, col2 = st.columns((2))
 
@@ -308,7 +307,6 @@ col1, col2 = st.columns((2))
 #
 #
 #
-
 topChartHarga = df_filtered.groupby(by="district", as_index=False)["price_in_rp"].sum()
 
 # Sorting berdasarkan kolom "price_in_rp" secara descending
@@ -576,6 +574,7 @@ with col2:
     )
     st.plotly_chart(fig_corr_harga_luas_bangunan, use_container_width=True)
 
+
 # Box Plot
 fig_box = px.box(
     df_filtered,
@@ -756,3 +755,6 @@ fig_heatmap = px.density_heatmap(
 )
 fig_heatmap.update_xaxes(tickangle=45)
 st.plotly_chart(fig_heatmap, use_container_width=True)
+
+st.header("Full Data")
+st.write(df_filtered)
