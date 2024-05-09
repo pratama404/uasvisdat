@@ -378,6 +378,7 @@ with col2:
         x=df_filtered["city"].value_counts().index,
         y=df_filtered["city"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Kota",
+        labels={"x": "Kota", "y": "Jumlah Properti"},
     )
     fig.update_traces(
         text=df_filtered["city"].value_counts().values, textposition="outside"
@@ -403,6 +404,7 @@ with col2:
         x=df_filtered["certificate"].value_counts().index,
         y=df_filtered["certificate"].value_counts().values,
         title="Banyaknya Properti yang Dijual Berdasarkan Tipe Sertifikat",
+        labels={"x": "Tipe Sertifikat", "y": "Jumlah Properti"},
     )
     fig.update_traces(
         text=df_filtered["certificate"].value_counts().values, textposition="outside"
@@ -415,9 +417,9 @@ with col1:
         df_filtered,
         x="building_orientation",
         y="price_in_rp",
-        title="Harga Properti di Jabodetabek Berdasarkan Orientasi Bangunan",
+        title="Harga Properti di Jabodetabek Berdasarkan Orientasi Properti",
         labels={
-            "building_orientation": "Orientasi Bangunan",
+            "building_orientation": "Orientasi Properti",
             "price_in_rp": "Harga (IDR)",
         },
         color="building_orientation",
@@ -430,7 +432,8 @@ with col2:
         df_filtered["building_orientation"].value_counts(),
         x=df_filtered["building_orientation"].value_counts().index,
         y=df_filtered["building_orientation"].value_counts().values,
-        title="Banyaknya Properti yang Dijual Berdasarkan Orientasi Bangunan",
+        title="Banyaknya Properti yang Dijual Berdasarkan Orientasi Properti",
+        labels={"x": "Building Orientation", "y": "Jumlah Properti"},
     )
     fig.update_traces(
         text=df_filtered["building_orientation"].value_counts().values,
@@ -444,7 +447,7 @@ with col1:
         df_filtered,
         x="property_condition",
         y="price_in_rp",
-        title="Harga Properti di Jabodetabek Berdasarkan Kondisi Bangunan",
+        title="Harga Properti di Jabodetabek Berdasarkan Kondisi Properti",
         labels={"property_condition": "Kondisi Bangunan", "price_in_rp": "Harga (IDR)"},
         color="property_condition",
         color_discrete_sequence=px.colors.qualitative.Vivid,
@@ -456,7 +459,8 @@ with col2:
         df_filtered["property_condition"].value_counts(),
         x=df_filtered["property_condition"].value_counts().index,
         y=df_filtered["property_condition"].value_counts().values,
-        title="Banyaknya Properti yang Dijual Berdasarkan Kondisi Bangunan",
+        title="Banyaknya Properti yang Dijual Berdasarkan Kondisi Properti",
+        labels={"x": "Kondisi Properti", "y": "Jumlah Properti"},
     )
     fig.update_traces(
         text=df_filtered["property_condition"].value_counts().values,
@@ -517,15 +521,21 @@ with col2:
 
 
 # Tren Harga Properti dari Waktu ke Waktu
+linechartHarga = df_filtered.groupby("year_built")["price_in_rp"].sum().reset_index()
 fig_tren_harga_waktu = px.area(
-    df_filtered.groupby("year_built")["price_in_rp"].sum().reset_index(),
+    linechartHarga,
     x="year_built",
     y="price_in_rp",
     title="Tren Harga Properti berdasarkan Tahun Pembangunan",
 )
 st.plotly_chart(fig_tren_harga_waktu, use_container_width=True)
 
-
+with st.expander("TimeSeries Harga Bangunan"):
+    st.write(linechartHarga.T.style.background_gradient(cmap="Blues"))
+    csv = linechartHarga.to_csv(index=False).encode("UTf-8")
+    st.download_button(
+        "Download Data", data=csv, file_name="TimeSeriesHarga.csv", mime="text/csv"
+    )
 # -----------------------------------------------------------------
 
 # Hitung jumlah properti yang dijual berdasarkan tahun pembangunan
@@ -540,6 +550,38 @@ fig = px.area(
     title="Tren Banyaknya Properti Dijual berdasarkan Tahun Pembangunan",
 )
 st.plotly_chart(fig, use_container_width=True)
+
+with st.expander("TimeSeries Jumlah Properti"):
+    st.write(properti_per_tahun.T.style.background_gradient(cmap="Blues"))
+    csv = properti_per_tahun.to_csv(index=False).encode("UTf-8")
+    st.download_button(
+        "Download Data",
+        data=csv,
+        file_name="TimeSeriesJumlahProperti.csv",
+        mime="text/csv",
+    )
+
+
+# TREE MAP
+# TREE MAP
+jumlahByKotaDist = (
+    df.groupby(["city", "district", "certificate"])
+    .size()
+    .reset_index(name="jumlah_rumah")
+)
+
+st.subheader("Tree Map Banyaknya Properti yang Dijual")
+figTree = px.treemap(
+    jumlahByKotaDist,
+    path=["city", "district", "certificate"],
+    values="jumlah_rumah",
+    hover_data=["city", "district", "certificate", "jumlah_rumah"],
+    color="certificate",
+)
+figTree.update_layout(width=800, height=1500)
+st.plotly_chart(figTree, use_container_width=True)
+# ------------------------
+
 
 # Distribusi Properti Berdasarkan Koordinat Geografis
 df_filtered["address_count"] = df_filtered.groupby(["lat", "long"])[
@@ -586,7 +628,7 @@ with cl1:
             "Download Data",
             data=csv,
             file_name="Data Rumah.csv",
-            mime="txt/csv",
+            mime="text/csv",
             help="Tekan untuk download data dalam bentuk CSV",
         )
 
@@ -599,6 +641,6 @@ with cl2:
             "Download Data",
             data=csv,
             file_name="Data Harga.csv",
-            mime="txt/csv",
+            mime="text/csv",
             help="Tekan untuk download data dalam bentuk CSV",
         )
