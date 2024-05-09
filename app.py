@@ -656,13 +656,13 @@ jumlahByKotaDist = (
     .reset_index(name="jumlah_rumah")
 )
 
-st.subheader("Tree Map Banyaknya Properti yang Dijual")
 figTree = px.treemap(
     jumlahByKotaDist,
     path=["city", "district", "certificate"],
     values="jumlah_rumah",
     hover_data=["city", "district", "certificate", "jumlah_rumah"],
     color="certificate",
+    title="Tree Map Banyaknya Properti yang Dijual",
 )
 figTree.update_layout(width=800, height=1500)
 st.plotly_chart(figTree, use_container_width=True)
