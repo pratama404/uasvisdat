@@ -296,22 +296,29 @@ def Home(df_filtered):
 # Panggil method yang sudah dibuat dengan DataFrame yang sudah difilter
 Home(df_filtered)
 
-if st.checkbox("Show EDA"):
-    # Exploratory Data Analysis (EDA)
-    st.header("Exploratory Data Analysis (EDA)")
-    st.write(df_filtered.head())
-
-    # Summary Statistics
-    st.subheader("Deskripsi Data:")
-    st.write(df_filtered.describe())
-
-    # Missing Values
-    st.subheader("Jumlah Missing Values per Kolom:")
-    st.write(df_filtered.isnull().sum())
-
-
 # Visualisasi data
 st.header("Visualisasi Data")
+
+col1, col2 = st.columns((2))
+# Distribusi Properti Berdasarkan Tipe Sertifikat
+with col1:
+    fig_distribusi_sertifikat = px.pie(
+        df_filtered["certificate"].value_counts(),
+        values=df_filtered["certificate"].value_counts().values,
+        names=df_filtered["certificate"].value_counts().index,
+        title="Distribusi Properti Berdasarkan Tipe Sertifikat",
+    )
+st.plotly_chart(fig_distribusi_sertifikat, use_container_width=True)
+
+# Distribusi Properti Berdasarkan Kondisi Bangunan
+with col2:
+    fig_distribusi_kondisi_bangunan = px.bar(
+        df_filtered["property_condition"].value_counts(),
+        x=df_filtered["property_condition"].value_counts().index,
+        y=df_filtered["property_condition"].value_counts().values,
+        title="Distribusi Properti Berdasarkan Kondisi Bangunan",
+    )
+st.plotly_chart(fig_distribusi_kondisi_bangunan, use_container_width=True)
 
 # Distribusi Harga Properti Berdasarkan Jumlah Kamar Tidur
 fig_harga_per_kamar_tidur = px.box(
@@ -366,24 +373,6 @@ fig_corr_harga_luas_bangunan = px.scatter(
     title="Korelasi Antara Harga Properti dan Luas Bangunan",
 )
 st.plotly_chart(fig_corr_harga_luas_bangunan, use_container_width=True)
-
-# Distribusi Properti Berdasarkan Tipe Sertifikat
-fig_distribusi_sertifikat = px.pie(
-    df_filtered["certificate"].value_counts(),
-    values=df_filtered["certificate"].value_counts().values,
-    names=df_filtered["certificate"].value_counts().index,
-    title="Distribusi Properti Berdasarkan Tipe Sertifikat",
-)
-st.plotly_chart(fig_distribusi_sertifikat, use_container_width=True)
-
-# Distribusi Properti Berdasarkan Kondisi Bangunan
-fig_distribusi_kondisi_bangunan = px.bar(
-    df_filtered["property_condition"].value_counts(),
-    x=df_filtered["property_condition"].value_counts().index,
-    y=df_filtered["property_condition"].value_counts().values,
-    title="Distribusi Properti Berdasarkan Kondisi Bangunan",
-)
-st.plotly_chart(fig_distribusi_kondisi_bangunan, use_container_width=True)
 
 # Distribusi Properti Berdasarkan Orientasi Bangunan
 fig_distribusi_orientasi_bangunan = px.pie(
