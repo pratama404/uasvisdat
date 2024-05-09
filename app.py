@@ -265,6 +265,37 @@ df_filtered = apply_filters(df)
 
 st.sidebar.button("Clear All Filters")
 
+
+def Home(df_filtered):
+    jumlah_rumah = df_filtered["url"].nunique()
+    avg_harga = df_filtered["price_in_rp"].mean()
+    max_harga = df_filtered["price_in_rp"].max()
+    min_harga = df_filtered["price_in_rp"].min()
+
+    # Ubah harga ke dalam satuan miliar
+    avg_harga_miliar = avg_harga / 1e9
+    max_harga_miliar = max_harga / 1e9
+    min_harga_juta = min_harga / 1e6
+
+    # Menampilkan summary
+    total1, total2, total3, total4 = st.columns(4, gap="large")
+    with total1:
+        st.info(":pencil: Jumlah Rumah yang Dijual")
+        st.metric(label="Count of Houses", value=f"{jumlah_rumah:.2f}")
+    with total2:
+        st.info(":pencil: Rata-Rata Harga Rumah")
+        st.metric(label="Average of Price", value=f"${avg_harga_miliar:.2f}B")
+    with total3:
+        st.info(":pencil: Harga Rumah Tertinggi")
+        st.metric(label="Max of Price", value=f"${max_harga_miliar}B")
+    with total4:
+        st.info(":pencil: Harga Rumah Terdendah")
+        st.metric(label="Min of Price", value=f"${min_harga_juta}M")
+
+
+# Panggil method yang sudah dibuat dengan DataFrame yang sudah difilter
+Home(df_filtered)
+
 if st.checkbox("Show EDA"):
     # Exploratory Data Analysis (EDA)
     st.header("Exploratory Data Analysis (EDA)")
