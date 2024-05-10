@@ -13,7 +13,7 @@ st.set_page_config(page_title="🏠 Jabodetabek House Price", layout="wide")
 st.title("🏠 Jabodetabek House Price")
 st.text("Ageng Putra Pratama - 09010622001")
 st.text("Muhammad Rifqi Naufal Irsyad - 09010622010")
-st.text("Rizki Cahyani Fitonah")
+st.text("Rizki Cahyani Fitonah - 09020622042")
 st.markdown(
     "<style>div.block-container{padding-top:2rem;}</style>", unsafe_allow_html=True
 )
