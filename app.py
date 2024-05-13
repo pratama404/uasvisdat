@@ -240,9 +240,6 @@ def apply_filters(data_frame):
 df_filtered = apply_filters(df)
 
 
-st.sidebar.button("Clear All Filters")
-
-
 def Home(df_filtered):
     jumlah_rumah = df_filtered["url"].nunique()
     avg_harga = df_filtered["price_in_rp"].mean()
@@ -615,7 +612,7 @@ with korelasiDist:
             x="land_size_m2",
             y="price_in_rp",
             title="Korelasi Antara Harga Properti dengan Luas Tanah",
-            labels={"land_size_m2": "", "price_in_rp": ""},
+            labels={"land_size_m2": "Luas Tanah", "price_in_rp": "Harga Properti"},
         )
         st.plotly_chart(fig_corr_harga_luas_tanah, use_container_width=True)
 
@@ -626,7 +623,10 @@ with korelasiDist:
             x="building_size_m2",
             y="price_in_rp",
             title="Korelasi Antara Harga Properti dengan Luas Bangunan",
-            labels={"building_size_m2": "", "price_in_rp": ""},
+            labels={
+                "building_size_m2": "Luas Bangunan",
+                "price_in_rp": "Harga Properti",
+            },
         )
         st.plotly_chart(fig_corr_harga_luas_bangunan, use_container_width=True)
 
@@ -668,73 +668,76 @@ with korelasiDist:
     # DensityPLOT
     # DensityPLOT
 
-    with col1:
-        jumlahByKota = (
-            df_filtered.groupby(["city"]).size().reset_index(name="Jumlah_Properti")
-        )
-        fig = px.density_contour(
-            jumlahByKota,
-            x="city",
-            y="Jumlah_Properti",
-            title="Korelasi Antara Jumlah Properti dengan Kota",
-        )
-        st.plotly_chart(fig, use_container_width=True)
+with col1:
+    jumlahByKota = (
+        df_filtered.groupby(["city"]).size().reset_index(name="Jumlah_Properti")
+    )
+    fig = px.density_contour(
+        jumlahByKota,
+        x="city",
+        y="Jumlah_Properti",
+        title="Korelasi Antara Jumlah Properti dengan Kota",
+        labels={"city": "", "Jumlah_Properti": ""},
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
-    with col2:
-        jumlahByCertificate = (
-            df_filtered.groupby(["certificate"])
-            .size()
-            .reset_index(name="Jumlah_Certificate")
-        )
-        fig = px.density_contour(
-            jumlahByCertificate,
-            x="certificate",
-            y="Jumlah_Certificate",
-            title="Korelasi Antara Jumlah Properti dengan Jenis Sertifikat",
-        )
-        st.plotly_chart(fig, use_container_width=True)
+with col2:
+    jumlahByCertificate = (
+        df_filtered.groupby(["certificate"])
+        .size()
+        .reset_index(name="Jumlah_Certificate")
+    )
+    fig = px.density_contour(
+        jumlahByCertificate,
+        x="certificate",
+        y="Jumlah_Certificate",
+        title="Korelasi Antara Jumlah Properti dengan Jenis Sertifikat",
+        labels={"certificate": "", "Jumlah_Certificate": ""},
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
-    with col1:
-        jumlahByKondisi = (
-            df_filtered.groupby(["property_condition"])
-            .size()
-            .reset_index(name="Jumlah_Kondisi")
-        )
-        fig = px.density_contour(
-            jumlahByKondisi,
-            x="property_condition",
-            y="Jumlah_Kondisi",
-            title="Korelasi Antara Jumlah Properti dengan Kondisi Properti",
-        )
-        st.plotly_chart(fig, use_container_width=True)
+with col1:
+    jumlahByKondisi = (
+        df_filtered.groupby(["property_condition"])
+        .size()
+        .reset_index(name="Jumlah_Kondisi")
+    )
+    fig = px.density_contour(
+        jumlahByKondisi,
+        x="property_condition",
+        y="Jumlah_Kondisi",
+        title="Korelasi Antara Jumlah Properti dengan Kondisi Properti",
+        labels={"property_condition": "", "Jumlah_Kondisi": ""},
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
-    with col2:
-        jumlahByOrientasi = (
-            df_filtered.groupby(["building_orientation"])
-            .size()
-            .reset_index(name="Jumlah_Orientasi")
-        )
-        fig = px.density_contour(
-            jumlahByOrientasi,
-            x="building_orientation",
-            y="Jumlah_Orientasi",
-            title="Korelasi Antara Jumlah Properti dengan Orientasi Bangunan",
-        )
-        st.plotly_chart(fig, use_container_width=True)
+with col2:
+    jumlahByOrientasi = (
+        df_filtered.groupby(["building_orientation"])
+        .size()
+        .reset_index(name="Jumlah_Orientasi")
+    )
+    fig = px.density_contour(
+        jumlahByOrientasi,
+        x="building_orientation",
+        y="Jumlah_Orientasi",
+        title="Korelasi Antara Jumlah Properti dengan Orientasi Bangunan",
+        labels={"building_orientation": "", "Jumlah_Orientasi": ""},
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
-    with col1:
-        jumlahByFurnish = (
-            df_filtered.groupby(["furnishing"])
-            .size()
-            .reset_index(name="Jumlah_Furnish")
-        )
-        fig = px.density_contour(
-            jumlahByFurnish,
-            x="furnishing",
-            y="Jumlah_Furnish",
-            title="Korelasi Antara Jumlah Properti dengan Kondisi Perabotan",
-        )
-        st.plotly_chart(fig, use_container_width=True)
+with col1:
+    jumlahByFurnish = (
+        df_filtered.groupby(["furnishing"]).size().reset_index(name="Jumlah_Furnish")
+    )
+    fig = px.density_contour(
+        jumlahByFurnish,
+        x="furnishing",
+        y="Jumlah_Furnish",
+        title="Korelasi Antara Jumlah Properti dengan Kondisi Perabotan",
+        labels={"furnishing": "", "Jumlah_Furnish": ""},
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
     # Box Plot
     fig_box = px.box(
@@ -900,20 +903,73 @@ with mapping:
                 help="Tekan untuk download data dalam bentuk CSV",
             )
 
-    # Heatmap
-    heatmap_data = (
-        df_filtered.groupby(["city", "property_condition"])
-        .size()
-        .reset_index(name="count")
-    )
-    fig_heatmap = px.density_heatmap(
-        heatmap_data,
-        x="city",
-        y="property_condition",
-        z="count",
-        title="Heatmap Antara Kota dan Kondisi Bangunan",
-        marginal_x="rug",
-        marginal_y="histogram",
-    )
-    fig_heatmap.update_xaxes(tickangle=45)
-    st.plotly_chart(fig_heatmap, use_container_width=True)
+# Heatmap
+# serti
+heatmap_data = (
+    df_filtered.groupby(["city", "certificate"]).size().reset_index(name="count")
+)
+fig_heatmap = px.density_heatmap(
+    heatmap_data,
+    x="city",
+    y="certificate",
+    z="count",
+    title="Heatmap Antara Kota dan Jenis Sertifikat",
+    marginal_x="rug",
+    marginal_y="histogram",
+)
+fig_heatmap.update_xaxes(title=None, tickangle=45)
+fig_heatmap.update_yaxes(title=None)
+st.plotly_chart(fig_heatmap, use_container_width=True)
+
+# Kondisi
+heatmap_data = (
+    df_filtered.groupby(["city", "property_condition"]).size().reset_index(name="count")
+)
+fig_heatmap = px.density_heatmap(
+    heatmap_data,
+    x="city",
+    y="property_condition",
+    z="count",
+    title="Heatmap Antara Kota dan Kondisi Bangunan",
+    marginal_x="rug",
+    marginal_y="histogram",
+)
+fig_heatmap.update_xaxes(title=None, tickangle=45)
+fig_heatmap.update_yaxes(title=None)
+st.plotly_chart(fig_heatmap, use_container_width=True)
+
+# orientasi
+heatmap_data = (
+    df_filtered.groupby(["city", "building_orientation"])
+    .size()
+    .reset_index(name="count")
+)
+fig_heatmap = px.density_heatmap(
+    heatmap_data,
+    x="city",
+    y="building_orientation",
+    z="count",
+    title="Heatmap Antara Kota dan Orientasi Bangunan",
+    marginal_x="rug",
+    marginal_y="histogram",
+)
+fig_heatmap.update_xaxes(title=None, tickangle=45)
+fig_heatmap.update_yaxes(title=None)
+st.plotly_chart(fig_heatmap, use_container_width=True)
+
+# furnish
+heatmap_data = (
+    df_filtered.groupby(["city", "furnishing"]).size().reset_index(name="count")
+)
+fig_heatmap = px.density_heatmap(
+    heatmap_data,
+    x="city",
+    y="furnishing",
+    z="count",
+    title="Heatmap Antara Kota dan Kondisi Perabotan",
+    marginal_x="rug",
+    marginal_y="histogram",
+)
+fig_heatmap.update_xaxes(title=None, tickangle=45)
+fig_heatmap.update_yaxes(title=None)
+st.plotly_chart(fig_heatmap, use_container_width=True)
