@@ -339,36 +339,36 @@ with col2:
         names=df_filtered["certificate"].value_counts().index,
         title="Persentase Properti Berdasarkan Tipe Sertifikat",
     )
-    # fig_distribusi_sertifikat.update_traces(textinfo="label+percent", textposition="outside")
+    # fig_persentase_sertifikat.update_traces(textposition='outside', textinfo='percent+label', rotation=50)
     st.plotly_chart(fig_persentase_sertifikat, use_container_width=True)
 
-# persentase Properti Berdasarkan Orientas Bangunan
+# persentase Properti Berdasarkan Orientasi Bangunan
 with col1:
-    fig_persentase_kondisi_bangunan = px.pie(
+    fig_persentase_orientasi_bangunan = px.pie(
         df_filtered["building_orientation"].value_counts(),
         values=df_filtered["building_orientation"].value_counts().values,
         names=df_filtered["building_orientation"].value_counts().index,
         title="Distribusi Properti Berdasarkan Orientasi Bangunan",
-    )
-    fig_persentase_kondisi_bangunan.update_traces(
-        textinfo="label+percent", textposition="outside"
-    )
-    fig_persentase_kondisi_bangunan.update_layout(showlegend=False)
-    st.plotly_chart(fig_persentase_kondisi_bangunan, use_container_width=True)
-
-# persentase Properti Berdasarkan Kondisi Bangunan
-with col2:
-    fig_persentase_orientasi_bangunan = px.pie(
-        df_filtered["property_condition"].value_counts(),
-        values=df_filtered["property_condition"].value_counts().values,
-        names=df_filtered["property_condition"].value_counts().index,
-        title="Distribusi Properti Berdasarkan Kondisi Bangunan",
     )
     fig_persentase_orientasi_bangunan.update_traces(
         textinfo="label+percent", textposition="outside"
     )
     fig_persentase_orientasi_bangunan.update_layout(showlegend=False)
     st.plotly_chart(fig_persentase_orientasi_bangunan, use_container_width=True)
+
+# persentase Properti Berdasarkan Kondisi Bangunan
+with col2:
+    fig_persentase_kondisi_bangunan = px.pie(
+        df_filtered["property_condition"].value_counts(),
+        values=df_filtered["property_condition"].value_counts().values,
+        names=df_filtered["property_condition"].value_counts().index,
+        title="Distribusi Properti Berdasarkan Kondisi Bangunan",
+    )
+    fig_persentase_kondisi_bangunan.update_traces(
+        textinfo="label+percent", textposition="outside"
+    )
+    fig_persentase_kondisi_bangunan.update_layout(showlegend=False)
+    st.plotly_chart(fig_persentase_kondisi_bangunan, use_container_width=True)
 
 # BARRRRRRR
 # BARRRRRRR
