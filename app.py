@@ -931,6 +931,21 @@ with mapping:
 
     # Heatmap
     # serti
+
+    fig_heatmap = px.density_heatmap(
+        df_filtered,
+        x="city",
+        y="certificate",
+        z="price_in_rp",
+        title="Heatmap Harga Properti Antara Kota dan Jenis Sertifikat",
+        marginal_x="rug",
+        marginal_y="histogram",
+        color_continuous_scale=["#006769", "#40A578", "#9DDE8B", "#E6FF94"],
+    )
+    fig_heatmap.update_xaxes(title=None, tickangle=45)
+    fig_heatmap.update_yaxes(title=None)
+    st.plotly_chart(fig_heatmap, use_container_width=True)
+
     heatmap_data = (
         df_filtered.groupby(["city", "certificate"]).size().reset_index(name="count")
     )
@@ -939,7 +954,7 @@ with mapping:
         x="city",
         y="certificate",
         z="count",
-        title="Heatmap Antara Kota dan Jenis Sertifikat",
+        title="Heatmap Jumlah Properti Antara Kota dan Jenis Sertifikat",
         marginal_x="rug",
         marginal_y="histogram",
     )
@@ -948,6 +963,20 @@ with mapping:
     st.plotly_chart(fig_heatmap, use_container_width=True)
 
     # Kondisi
+    fig_heatmap = px.density_heatmap(
+        df_filtered,
+        x="city",
+        y="property_condition",
+        z="price_in_rp",
+        title="Heatmap Harga Properti Antara Kota dan Kondisi Bangunan",
+        marginal_x="rug",
+        marginal_y="histogram",
+        color_continuous_scale=["#006769", "#40A578", "#9DDE8B", "#E6FF94"],
+    )
+    fig_heatmap.update_xaxes(title=None, tickangle=45)
+    fig_heatmap.update_yaxes(title=None)
+    st.plotly_chart(fig_heatmap, use_container_width=True)
+
     heatmap_data = (
         df_filtered.groupby(["city", "property_condition"])
         .size()
@@ -958,7 +987,7 @@ with mapping:
         x="city",
         y="property_condition",
         z="count",
-        title="Heatmap Antara Kota dan Kondisi Bangunan",
+        title="Heatmap Jumlah Properti Antara Kota dan Kondisi Bangunan",
         marginal_x="rug",
         marginal_y="histogram",
     )
@@ -967,6 +996,20 @@ with mapping:
     st.plotly_chart(fig_heatmap, use_container_width=True)
 
     # orientasi
+    fig_heatmap = px.density_heatmap(
+        df_filtered,
+        x="city",
+        y="building_orientation",
+        z="price_in_rp",
+        title="Heatmap Harga Properti Antara Kota dan Orientasi Bangunan",
+        marginal_x="rug",
+        marginal_y="histogram",
+        color_continuous_scale=["#006769", "#40A578", "#9DDE8B", "#E6FF94"],
+    )
+    fig_heatmap.update_xaxes(title=None, tickangle=45)
+    fig_heatmap.update_yaxes(title=None)
+    st.plotly_chart(fig_heatmap, use_container_width=True)
+
     heatmap_data = (
         df_filtered.groupby(["city", "building_orientation"])
         .size()
@@ -977,7 +1020,7 @@ with mapping:
         x="city",
         y="building_orientation",
         z="count",
-        title="Heatmap Antara Kota dan Orientasi Bangunan",
+        title="Heatmap Jumlah Properti Antara Kota dan Orientasi Bangunan",
         marginal_x="rug",
         marginal_y="histogram",
     )
@@ -986,6 +1029,21 @@ with mapping:
     st.plotly_chart(fig_heatmap, use_container_width=True)
 
     # furnish
+
+    fig_heatmap = px.density_heatmap(
+        df_filtered,
+        x="city",
+        y="furnishing",
+        z="price_in_rp",
+        title="Heatmap Harga Properti Antara Kota dan Kondisi Perabotan",
+        marginal_x="rug",
+        marginal_y="histogram",
+        color_continuous_scale=["#006769", "#40A578", "#9DDE8B", "#E6FF94"],
+    )
+    fig_heatmap.update_xaxes(title=None, tickangle=45)
+    fig_heatmap.update_yaxes(title=None)
+    st.plotly_chart(fig_heatmap, use_container_width=True)
+
     heatmap_data = (
         df_filtered.groupby(["city", "furnishing"]).size().reset_index(name="count")
     )
@@ -994,7 +1052,7 @@ with mapping:
         x="city",
         y="furnishing",
         z="count",
-        title="Heatmap Antara Kota dan Kondisi Perabotan",
+        title="Heatmap Jumlah Properti Antara Kota dan Kondisi Perabotan",
         marginal_x="rug",
         marginal_y="histogram",
     )
