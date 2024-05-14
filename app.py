@@ -2,10 +2,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 import os
-import plotly.graph_objects as go
 import warnings
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 warnings.filterwarnings("ignore")
 
