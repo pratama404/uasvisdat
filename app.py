@@ -269,7 +269,7 @@ Home(df_filtered)
 
 
 Top_5, persentase, bar_chart, korelasiDist, tren, mapping = st.tabs(
-    ["Top 5", "Persentase", "Bar Chart", "Korelasi & Distribusi", "Tren", "Mapping"]
+    ["Summary", "Persentase", "Bar Chart", "Korelasi & Distribusi", "Tren", "Mapping"]
 )
 with Top_5:
     col1, col2 = st.columns((2))
