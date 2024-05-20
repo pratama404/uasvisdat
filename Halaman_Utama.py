@@ -6,4 +6,3 @@ st.set_page_config(
 )
 
 st.title("Latar Belakang")
-st.sidebar.success("Pilih Halaman")
