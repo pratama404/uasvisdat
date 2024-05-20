@@ -76,7 +76,7 @@ def apply_filters(data_frame):
         df_filtered = df_filtered.copy()
     else:
         mask = df_filtered["facilities"].apply(
-            lambda x: any(facility in x for facility in selected_facilities)
+            lambda x: all(facility in x for facility in selected_facilities)
         )
         df_filtered = df_filtered[mask & (df_filtered["facilities"] != "")]
 
