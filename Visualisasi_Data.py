@@ -623,6 +623,7 @@ with korelasiDist:
             df_filtered,
             x="land_size_m2",
             y="price_in_rp",
+            color="city",
             title="Korelasi Antara Harga Properti dengan Luas Tanah",
             labels={"land_size_m2": "Luas Tanah", "price_in_rp": "Harga Properti"},
         )
@@ -634,6 +635,7 @@ with korelasiDist:
             df_filtered,
             x="building_size_m2",
             y="price_in_rp",
+            color="city",
             title="Korelasi Antara Harga Properti dengan Luas Bangunan",
             labels={
                 "building_size_m2": "Luas Bangunan",
@@ -642,36 +644,6 @@ with korelasiDist:
         )
         st.plotly_chart(fig_corr_harga_luas_bangunan, use_container_width=True)
 
-    with col1:
-        fig = px.scatter(
-            df_filtered,
-            x="city",
-            y="price_in_rp",
-            symbol="city",
-            size="price_in_rp",
-            color="city",
-            hover_data="price_in_rp",
-            title="Korelasi Antara Harga Properti dengan Kota",
-            labels={"city": "", "price_in_rp": ""},
-        )
-        st.plotly_chart(fig, use_container_width=True)
-
-    with col2:
-        jumlahByKota = (
-            df_filtered.groupby(["city"]).size().reset_index(name="Jumlah Properti")
-        )
-        fig = px.scatter(
-            jumlahByKota,
-            x="city",
-            y="Jumlah Properti",
-            symbol="city",
-            size="Jumlah Properti",
-            color="city",
-            hover_data="Jumlah Properti",
-            title="Korelasi Antara Jumlah Properti dengan Kota",
-            labels={"city": "", "Jumlah Properti": ""},
-        )
-        st.plotly_chart(fig, use_container_width=True)
 
     # DensityPLOT
     # DensityPLOT
