@@ -784,28 +784,34 @@ with tren:
             "Download Data", data=csv, file_name="TimeSeriesHarga.csv", mime="text/csv"
         )
 
-    properti_per_tahun = df_filtered["year_built"].value_counts().reset_index()
-    properti_per_tahun.columns = ["year_built", "jumlah_properti"]
+properti_per_tahun = df_filtered["year_built"].value_counts().reset_index()
+properti_per_tahun.columns = ["year_built", "jumlah_properti"]
+properti_per_tahun["year_built"] = properti_per_tahun["year_built"].astype(int)
 
-    # Tren Banyaknya Properti dijual dari Waktu ke Waktu
-    fig = px.area(
-        properti_per_tahun,
-        x="year_built",
-        y="jumlah_properti",
-        title="Tren Banyaknya Properti Dijual berdasarkan Tahun Pembangunan",
-        labels={"year_built": "", "jumlah_properti": ""},
+fig = px.area(
+    properti_per_tahun,
+    x="year_built",
+    y="jumlah_properti",
+    title="Tren Banyaknya Properti Dijual berdasarkan Tahun Pembangunan",
+    labels={"year_built": "Tahun Pembangunan", "jumlah_properti": "Jumlah Properti"},
+)
+
+fig.update_layout(
+    xaxis=dict(tickformat='d'),
+    yaxis=dict(tickformat='d'),
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+with st.expander("TimeSeries Jumlah Properti"):
+    st.write(properti_per_tahun.T.style.background_gradient(cmap="Blues"))
+    csv = properti_per_tahun.to_csv(index=False).encode("UTF-8")
+    st.download_button(
+        "Download Data",
+        data=csv,
+        file_name="TimeSeriesJumlahProperti.csv",
+        mime="text/csv",
     )
-    st.plotly_chart(fig, use_container_width=True)
-
-    with st.expander("TimeSeries Jumlah Properti"):
-        st.write(properti_per_tahun.T.style.background_gradient(cmap="Blues"))
-        csv = properti_per_tahun.to_csv(index=False).encode("UTF-8")
-        st.download_button(
-            "Download Data",
-            data=csv,
-            file_name="TimeSeriesJumlahProperti.csv",
-            mime="text/csv",
-        )
 
 with mapping:
     col1, col2 = st.columns((2))
