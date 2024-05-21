@@ -757,27 +757,33 @@ with korelasiDist:
 
 with tren:
     col1, col2 = st.columns((2))
-    # Tren Harga Properti dari Waktu ke Waktu
-    linechartHarga = (
-        df_filtered.groupby("year_built")["price_in_rp"].sum().reset_index()
-    )
+
+    linechartHarga = df_filtered.groupby("year_built")["price_in_rp"].mean().reset_index()
+    linechartHarga2 = df_filtered.groupby("year_built")["price_in_rp"].mean().reset_index()
+
+    linechartHarga['year_built'] = linechartHarga['year_built'].astype(str).str[:4]
+    linechartHarga['price_in_rp'] = (linechartHarga['price_in_rp'] / 1_000_000_000).map('{:.2f}'.format)
+    
+    linechartHarga2['year_built'] = linechartHarga2['year_built'].astype(str).str[:4]
+    linechartHarga2['price_in_rp'] = (linechartHarga2['price_in_rp'] / 1_000_000_000).map('{:.2f}'.format) + ' Miliar'
+
     fig_tren_harga_waktu = px.area(
         linechartHarga,
         x="year_built",
         y="price_in_rp",
-        title="Tren rata rata Harga Properti berdasarkan Tahun Pembangunan",
-        labels={"year_built": "", "price_in_rp": ""},
+        title="Tren Rata-Rata Harga Properti berdasarkan Tahun Pembangunan",
+        labels={"year_built": "Tahun Pembangunan", "price_in_rp": "Harga (dalam Miliar Rp)"}
     )
+
     st.plotly_chart(fig_tren_harga_waktu, use_container_width=True)
 
-    with st.expander("TimeSerie rata rata Harga Bangunan"):
-        st.write(linechartHarga.T.style.background_gradient(cmap="Blues"))
+    with st.expander("TimeSerie Rata-Rata Harga Bangunan"):
+        st.write(linechartHarga2.T.style.background_gradient(cmap="Blues"))
         csv = linechartHarga.to_csv(index=False).encode("UTF-8")
         st.download_button(
             "Download Data", data=csv, file_name="TimeSeriesHarga.csv", mime="text/csv"
         )
 
-    # Hitung jumlah properti yang dijual berdasarkan tahun pembangunan
     properti_per_tahun = df_filtered["year_built"].value_counts().reset_index()
     properti_per_tahun.columns = ["year_built", "jumlah_properti"]
 
