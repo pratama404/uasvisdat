@@ -437,7 +437,7 @@ with bar_chart:
 
     # KOTAAAAAAA
     with col1:
-        cityPrice = df_filtered.groupby(by="city", as_index=False)["price_in_rp"].sum()
+        cityPrice = df_filtered.groupby(by="city", as_index=False)["price_in_rp"].mean()
         cityPrice = cityPrice.sort_values(by="price_in_rp", ascending=False)
         fig = px.bar(
             cityPrice,
@@ -765,12 +765,12 @@ with tren:
         linechartHarga,
         x="year_built",
         y="price_in_rp",
-        title="Tren Harga Properti berdasarkan Tahun Pembangunan",
+        title="Tren rata rata Harga Properti berdasarkan Tahun Pembangunan",
         labels={"year_built": "", "price_in_rp": ""},
     )
     st.plotly_chart(fig_tren_harga_waktu, use_container_width=True)
 
-    with st.expander("TimeSeries Harga Bangunan"):
+    with st.expander("TimeSerie rata rata Harga Bangunan"):
         st.write(linechartHarga.T.style.background_gradient(cmap="Blues"))
         csv = linechartHarga.to_csv(index=False).encode("UTF-8")
         st.download_button(
@@ -848,20 +848,6 @@ with mapping:
         zoom=10,
         title="Peta Distribusi Geografis Properti Menurut Jumlah Rumah yang Dijual",
     )
-    st.plotly_chart(fig_scatter_mapbox, use_container_width=True)
-
-    fig_scatter_mapbox = px.scatter_mapbox(
-        df_filtered,
-        lat="lat",
-        lon="long",
-        hover_name="address",
-        color="city",
-        size="price_in_rp",
-        mapbox_style="carto-positron",
-        zoom=10,
-        title="Peta Distribusi Geografis Properti Berdasarkan Harga Porperti",
-    )
-
     st.plotly_chart(fig_scatter_mapbox, use_container_width=True)
 
     cl1, cl2 = st.columns(2)
