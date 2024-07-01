@@ -16,7 +16,7 @@ Dataset daftar Penjualan Rumah Jabodetabek [(Link Download)](https://www.kaggle.
 ## Publication
 Notebook [(Link Download)](https://colab.research.google.com/drive/1JwsjE9N_LA7L5vIlTWER5BHgeyacEV6v?usp=sharing)
 Journal [(tba)](https://colab.research.google.com/drive/1JwsjE9N_LA7L5vIlTWER5BHgeyacEV6v?usp=sharing)
-Blog [(tba)](https://colab.research.google.com/drive/1JwsjE9N_LA7L5vIlTWER5BHgeyacEV6v?usp=sharing)
+Blog [(Link Blog)](https://agengputrapratama.blogspot.com/2024/05/buat-visuaaisasi-mu-jadi-cerita-yang.html)
 Demo [(tba)](https://colab.research.google.com/drive/1JwsjE9N_LA7L5vIlTWER5BHgeyacEV6v?usp=sharing)
 
 
