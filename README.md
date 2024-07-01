@@ -11,7 +11,7 @@ Proyek ini berupa analis data terhadap **Perumahan** di JABODETABEK yang divisua
 ## Sumber Data
 Dataset daftar Penjualan Rumah Jabodetabek [(Link Download)](https://www.kaggle.com/datasets/nafisbarizki/daftar-harga-rumah-jabodetabek)
 
-   [Project Data Analytics](https://carirumah.streamlit.app/)
+   [Project Data Analytics](https://hospres.streamlit.app/)
 
 ## Publication
 Notebook [(Link Download)](https://colab.research.google.com/drive/1JwsjE9N_LA7L5vIlTWER5BHgeyacEV6v?usp=sharing)
